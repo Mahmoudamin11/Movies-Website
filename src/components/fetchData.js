@@ -8,3 +8,5 @@ export const api = axios.create({
         api_key: apiKey,
     },
 });
+
+console.log(apiKey);
