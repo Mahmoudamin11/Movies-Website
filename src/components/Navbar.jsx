@@ -14,7 +14,7 @@ const Navbar = () => {
         </button>
         <Input />
         <Link to="/" className="text-background-color">
-            Heart
+            Favorite
         </Link>
     </div>
   )
