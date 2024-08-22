@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import LoadingSpinnerSections from '../utils/LoadingSpinnerSections';
 import Error from './Error';
 import DivError from '../utils/DivError';
+import LoadingSpinner from './LoadingSpinner';
 
 const TrendingMovies = () => {
     const [trendingMovies, setTrendingMovies] = useState([]);
@@ -89,13 +90,13 @@ const TrendingMovies = () => {
 
     return (
         <>
-            {loading && <LoadingSpinnerSections />}
+            {loading && <LoadingSpinner />}
             { 
             <div ref={containerRef} className="w-full py-10 flex flex-col gap-5">
-                <h1 className='text-3xl flex items-center gap-3 font-bold'>
+                {!loading && <h1 className='text-3xl flex items-center gap-3 font-bold'>
                     Trending
                     <span className='text-sm py-1 cursor-default mt-2 bg-black flex items-center justify-center rounded-full px-3 text-fourth-color'>Today</span>
-                </h1>
+                </h1>}
                 {!error && !loading && <div 
                     style={{
                         backgroundImage: `url(${backgroundImage})`,
