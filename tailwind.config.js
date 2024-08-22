@@ -14,8 +14,8 @@ export default {
         "background-color" : "var(--background-color)",
       },
       backgroundImage: { 
-        hero: "url('src/assets/op2.jpg')",
-        waves: "url('src/assets/wavesBG.svg')"
+        hero: "url('/src/assets/op2.jpg')",
+        waves: "url('/src/assets/wavesBG.svg')"
       },
       transitionProperty:{
         'height': 'height'
