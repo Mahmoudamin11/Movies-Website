@@ -1,15 +1,28 @@
-import { useSelector } from 'react-redux';
 import DiscoveredMovies from './DiscoveredMovies';
-import SearchedMovies from "./SearchedMovies";
+import { memo, useState} from 'react';
+import TrendingMovies from './TrendingMovies';
+import PopularMovies from './PopularMovies';
+import FreeToWatch from './FreeToWatch';
+import LoadingSpinner from './LoadingSpinner';
 
-const Movies = () => {
-    const {result , status, error} = useSelector((state) => state.search)
+const Movies = memo(() => {
+    const [loading, setLoading] = useState(false);
+    const changeLoading = (bool) => { 
+        setLoading(bool);
+    }
     return (
-        <div className='grid grid-cols-4 gap-10 px-20 my-20'>
-            {result.length== 0 && <DiscoveredMovies />}
-            <SearchedMovies />
+        <div className=' max-sm:px-5 px-20 mt-10 pb-10'>
+            {!loading && <>
+                <TrendingMovies changeLoading={changeLoading} />
+                { <DiscoveredMovies />}
+                <PopularMovies />
+                <FreeToWatch />
+            </>}
+            {
+                loading && <LoadingSpinner />
+            }
         </div>
     )
-}
+})
 
 export default Movies

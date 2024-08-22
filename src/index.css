@@ -2,15 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
+::-webkit-scrollbar {
+    width: 20px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #dfe1e2;
+    /* background-color: #b9b9b9; */
+    border-radius: 20px;
+    border: 6px solid transparent;
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #a8bbbf;
+}
 @layer base { 
     :root { 
         --main-color : #201E43 ;
+        /* --main-color : #383668 ; */
         --sec-color : #134B70 ;
         --third-color : #508C9B ;
+        --fourth-color : #86c0cf ;
         --background-color : #EEEEEE ;
     }
     .trans{ 
         @apply transition-all duration-200;
+    }
+    .keyword{ 
+        @apply w-fit h-fit cursor-default px-2 py-1 rounded-md bg-gray-200 text-xs border-[1px] border-gray-300 border-solid
+    }  
+    .cast-shadow-right {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 50px;
+        /* Adjust the width as needed */
+        height: 100%;
+        background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+        pointer-events: none;
+        /* Allow clicks to pass through */
+        z-index: 10;
+        /* Ensure it is on top of other elements */
+        transition: opacity 0.3s ease;
+    }
+    .active { 
+        @apply border-b-4 border-sec-color border-solid;
+    }
+    .notActive { 
+        @apply border-b-4 border-white border-solid;
     }
     
 }

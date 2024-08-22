@@ -11,12 +11,12 @@ const Movie = ({movie}) => {
         nav(`/movie/${movie.id}`);
     }
     return (
-        <div onClick={handleOpenMovie} className='flex group flex-col gap-2 cursor-pointer trans hover:scale-105'>
+        <div onClick={handleOpenMovie} className='flex group flex-col  gap-2 cursor-pointer trans hover:scale-105'>
             <AsyncImage
-                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                    src={`https://image.tmdb.org/t/p/w342${movie.poster_path}`}
                     Transition={Blur}
                     style={{ maxWidth: '500px', height: '500px', borderRadius: "6px" }}
-                    loader={<div style={{ background: 'var(--third-color)' }} />}
+                    loader={<div className=' animate-pulse' style={{ background: 'var(--third-color)' }} />}
             />
             <div className='flex group-hover:opacity-80 trans flex-col pl-1 text-third-color'>
                 <span className='text-sec-color  font-bold text-lg'>{movie.title}</span>

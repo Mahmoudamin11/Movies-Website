@@ -5,8 +5,8 @@ import Movies from './Movies'
 const Home = () => {
   return (
     <>
-        <HeroSection />
-        <Movies />
+      <HeroSection />
+      <Movies />
     </>
   )
 }
