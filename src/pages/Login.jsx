@@ -53,7 +53,7 @@ const Login = () => {
                     <button onClick={handleLogin} className='outline-none bg-sec-color text-white rounded-md w-full trans hover:bg-third-color py-2'>Login</button>
                     <button onClick={goToSignUp} className='outline-none text-center mx-auto text-sec-color trans underline hover:no-underline hover:text-third-color rounded-md w-fit'>Don't have an account?</button>
                 </div>
-                {!user && <p className={ `min-h-6 text-red-500 text-lg font-semibold mx-auto ${error ? " visible" : " invisible"} `}>{error?.slice(10, error.length)}</p>}
+                {!user && <p className={ `min-h-6 text-red-500 text-lg font-semibold mx-auto ${error ? " visible" : " invisible"} text-center `}>{error?.slice(10, error.length)}</p>}
             </div>
         }
         </>
