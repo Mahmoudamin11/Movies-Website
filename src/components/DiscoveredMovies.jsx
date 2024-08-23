@@ -1,15 +1,14 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { useEffect, useState } from 'react';
 import { api } from './fetchData';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import LoadingSpinner from './LoadingSpinner';
 import Error from './Error';
 import { AsyncImage } from 'loadable-image';
 import { Blur } from 'transitions-kit';
 import { useNavigate } from 'react-router-dom';
 
-const DiscoveredMovies = () => {
+const DiscoveredMovies = memo(() => {
     const [data, setdata] = useState([]);
     const [loading, setLoading] = useState([]);
     const [currError, setCurrError] = useState("");
@@ -91,6 +90,6 @@ const DiscoveredMovies = () => {
         }
     </>
   )
-}
+})
 
 export default DiscoveredMovies

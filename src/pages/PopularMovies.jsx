@@ -106,7 +106,7 @@ const loadMoreMovies = () => {
                 error && <Error error={error} />
             }
             { 
-                !loading && 
+                !loading && !error && 
                 <div className='flex flex-col gap-8'>
 
                     <div className='w-full flex items-center justify-between'>
@@ -150,7 +150,7 @@ const loadMoreMovies = () => {
                             </div>
                         ))}
                     </div>}
-                    {popularMovies.length > 0 &&<div className='w-full text-center mt-8'>
+                    {popularMovies.length > 0 && !error && <div className='w-full text-center mt-8'>
                     <button onClick={loadMoreMovies} className='bg-sec-color px-5 py-2 font-semibold text-white trans hover:bg-third-color rounded-md'>
                         Load More
                     </button>

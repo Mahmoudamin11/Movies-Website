@@ -1,14 +1,13 @@
 import { AsyncImage } from 'loadable-image';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { memo, useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Blur } from 'transitions-kit';
 import { getFreeToWatchMovies } from '../slices/movieDetailSlice';
 import arrowRight from '../assets/arrow-right.svg'
-import LoadingSpinnerSections from '../utils/LoadingSpinnerSections';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
-const FreeToWatch = () => {
+const FreeToWatch = memo(() => {
     const [freeMovies, setFreeMovies] = useState([]);
     const [moviesCount, setMoviesCount] = useState(7);
     const [isInView, setIsInView] = useState(false);
@@ -125,6 +124,6 @@ const FreeToWatch = () => {
             </div>}
         </>
     );
-}
+})
 
 export default FreeToWatch

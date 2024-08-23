@@ -1,5 +1,5 @@
 // TrendingMovies.jsx
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, memo } from 'react';
 import { getTrendingMovies } from '../slices/movieDetailSlice';
 import { AsyncImage } from 'loadable-image';
 import { Blur } from 'transitions-kit';
@@ -9,7 +9,7 @@ import Error from './Error';
 import DivError from '../utils/DivError';
 import LoadingSpinner from './LoadingSpinner';
 
-const TrendingMovies = () => {
+const TrendingMovies = memo(() => {
     const [trendingMovies, setTrendingMovies] = useState([]);
     const [isInView, setIsInView] = useState(false);
     const containerRef = useRef(null);
@@ -132,6 +132,6 @@ const TrendingMovies = () => {
             }
         </>
     );
-};
+});
 
 export default TrendingMovies;

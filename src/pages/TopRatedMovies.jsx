@@ -104,7 +104,7 @@ const TopRatedMovies = () => {
             { 
                 error && <Error error={error} />
             }
-            { !loading &&
+            { !loading && !error && 
             <div className='flex flex-col gap-8'>
                 <div className='w-full flex items-center justify-between'>
                     <h1 className="text-3xl font-bold ">Top Rated Movies</h1>
@@ -146,7 +146,7 @@ const TopRatedMovies = () => {
                         </div>
                     ))}
                 </div>}
-                {topRatedMovies.length > 0 &&<div className='w-full text-center mt-8'>
+                {topRatedMovies.length > 0 && !error && <div className='w-full text-center mt-8'>
                     <button onClick={loadMoreMovies} className='bg-sec-color px-5 py-2 font-semibold text-white trans hover:bg-third-color rounded-md'>
                         Load More
                     </button>

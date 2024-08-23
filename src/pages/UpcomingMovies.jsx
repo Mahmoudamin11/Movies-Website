@@ -17,7 +17,6 @@ const UpcomingMovies = () => {
                 setLoading(true);
                 const movies = await getUpcomingMovies();
                 setUpcomingMovies(movies.results);
-                console.log(movies.results);
                 setError("")
             } catch (error) {
                 console.error('Failed to fetch upcoming Movies:', error);
@@ -43,7 +42,7 @@ const UpcomingMovies = () => {
                 error && <Error error={error} />
             }
             {
-                !loading && 
+                !loading && !error && 
                 <div className='flex flex-col gap-8'>
                     <h1 className="text-3xl font-bold mb-8">Upcoming Movies</h1>
                     <div className='grid place-items-center grid-cols-1 min-[670px]:grid-cols-2 min-[1050px]:grid-cols-3 min-[1300px]:grid-cols-4 gap-10'>

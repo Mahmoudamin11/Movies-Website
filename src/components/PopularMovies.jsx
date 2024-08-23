@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { memo, useEffect, useRef, useState } from 'react'
 import { getTopRatedMovies } from '../slices/movieDetailSlice';
 import { AsyncImage } from 'loadable-image';
 import { Blur } from 'transitions-kit';
@@ -7,7 +7,7 @@ import arrowRight from '../assets/arrow-right.svg'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
-const Popular = () => {
+const Popular = memo(() => {
     const [topRatedMovies, setTopRatedMovies] = useState([]);
     const [moviesCount, setMoviesCount] = useState(7);
 
@@ -126,6 +126,6 @@ const Popular = () => {
             }
         </>
     );
-}
+})
 
 export default Popular
