@@ -108,7 +108,7 @@ const TrendingMovies = memo(() => {
                         {
                             trendingMovies.length > 0 &&
                             trendingMovies.map((movie) => (
-                                <div onMouseEnter={() => changeBackground(movie)} key={movie.id} onClick={() => handleOpenMovie(movie.id)} className='z-50 flex group flex-col gap-2 pt-4 pl-2 cursor-pointer trans hover:scale-105'>
+                                <div onMouseEnter={() => changeBackground(movie)} key={movie.id} onClick={() => handleOpenMovie(movie.id)} className='z-40 flex group flex-col gap-2 pt-4 pl-2 cursor-pointer trans hover:scale-105'>
                                     <AsyncImage
                                             src={`https://image.tmdb.org/t/p/w185${movie.poster_path}`}
                                             Transition={Blur}

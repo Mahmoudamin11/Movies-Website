@@ -10,13 +10,13 @@ const OneRecommendation = (movie) => {
     }
     return (
         
-        <div onClick={goToMovie} key={movie.movie.id} className="relative group overflow-hidden min-w-[25%] trans hover:scale-105 h-fit cursor-pointer flex flex-col gap-2 rounded-md">
+        <div onClick={goToMovie} key={movie.movie.id} className="relative group overflow-hidden max-sm:min-w-[50%] sm:min-w-[25%] trans hover:scale-105 sm:h-[128px] max-sm:h-[90px] cursor-pointer flex flex-col gap-2 rounded-md">
             <AsyncImage
                 className='group'
                 src={`https://image.tmdb.org/t/p/w342${movie.movie.backdrop_path}`}
                 alt="Movie video"
                 Transition={Blur}
-                style={{ minWidth: '220px', height: '128px', borderRadius: '6px' }}
+                style={{ minWidth: '220px', height: '100%', borderRadius: '6px' }}
                 loader={<div className='animate-pulse' style={{ background: 'var(--third-color)' }} />}
                 loading="lazy"
             />

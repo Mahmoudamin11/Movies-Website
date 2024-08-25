@@ -27,7 +27,7 @@ const Recommendations = memo(() => {
     }
     return (
         
-        <div ref={ref} className='pb-10 ' >
+        <div ref={ref} className='pb-10 max-[870px]:pb-0 ' >
             {
                 status === 'failed' && inView && <Error error={error.message} />
             }
@@ -37,7 +37,7 @@ const Recommendations = memo(() => {
             {status === 'succeeded' &&  inView &&
             <div className='flex flex-col gap-5'>
                 <h1 className='font-bold text-2xl'>Recommendations</h1>
-                <div className="flex gap-5 overflow-x-scroll h-fit overflow-y-hidden py-2 ">
+                <div className="flex gap-5 max-sm:gap-3 overflow-x-scroll h-fit overflow-y-hidden py-2 ">
                     {recommendations?.length > 0 && recommendations.slice(0, recCount).map((movie) => movie.poster_path && movie.backdrop_path ?  (
                         <OneRecommendation key={movie.id} movie={movie} />
                     ) : null)}
@@ -48,8 +48,8 @@ const Recommendations = memo(() => {
                         </div>
                         
                     }
-                {recommendations?.length > 0 && recCount < recommendations.length && <button onClick={handleLoadMoreRecs} className='flex gap-1 min-w-[25%] bg-gray-50 pl-2 rounded-md outline-none items-center trans group  cursor-pointer'>
-                    <button className='trans outline-none opacity-100 group-hover:opacity-70 text-lg'>Load More</button>
+                {recommendations?.length > 0 && recCount < recommendations.length && <button onClick={handleLoadMoreRecs} className='flex gap-1 min-w-[25%] max-sm:min-w-[50%] bg-gray-50 pl-2 rounded-md outline-none items-center trans group  cursor-pointer'>
+                    <button className='trans outline-none opacity-100 group-hover:opacity-70 text-lg max-sm:text-[15px]'>Load More</button>
                     <img src={arrowRight} alt="" className='w-5 mt-1' />
                 </button>}
                 </div>

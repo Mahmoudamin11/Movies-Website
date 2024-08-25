@@ -29,7 +29,7 @@ const SearchedMovies = () => {
         { 
             result.length > 0 && status === "succeeded" &&
             <div className='grid  grid-cols-1 min-[540px]:grid-cols-2 min-[1000px]:grid-cols-3 xl:grid-cols-4 gap-10 px-20 max-md:px-10 max-sm:px-5'>
-              {result.map((mov) => mov.poster_path && mov.backdrop_path ?  (
+              {result.map((mov) => mov.poster_path && mov.backdrop_path && !mov.adult && mov.vote_average * 10 > 63 ?  (
                   <div className='max-sm:mx-auto max-[540px]:w-[325px]  max-sm:w-[250px] '>
                     <Movie key={mov.id} movie={mov} />
                   </div>

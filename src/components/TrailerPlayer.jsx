@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import Error from './Error';
 
 const TrailerPlayer = ({ onCloseTrailer, videoError }) => {
-    const { images, videos, status, error } = useSelector((state) => state.media);
+    const { videos, status, error } = useSelector((state) => state.media);
     return (
         <>
             {

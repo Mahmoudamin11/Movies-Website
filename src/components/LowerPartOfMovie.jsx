@@ -7,8 +7,8 @@ import Recommendations from './Recommendations'
 
 const LowerPartOfMovie = memo(() => {
   return (
-    <div className='px-20'>
-        <div className='w-full grid grid-cols-[70%_1fr] gap-10 '>
+    <div className='px-20 max-[870px]:px-10 max-sm:px-5'>
+        <div className='w-full min-[870px]:grid min-[870px]:grid-cols-[70%_1fr] max-[870px]:flex flex-col gap-10 '>
           <div className='flex flex-col gap-10'>
             <TopBilledCast  />
             <Social />

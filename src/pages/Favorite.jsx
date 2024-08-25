@@ -32,11 +32,11 @@ const  Favorite = () => {
     }
 
     return (
-        <div className='flex flex-col min-h-[100vh] w-full px-20 py-20 gap-8'>
-            <h1 className='text-3xl font-bold'>Favorite Movies</h1>
+        <div className='flex flex-col min-h-screen w-full p-20 max-md:p-10 max-sm:p-5 gap-8'>
+            {!loading && <h1 className='text-3xl font-bold'>Favorite Movies</h1>}
             {!loading && 
                 (favorites.length > 0 ? (
-                    <div className='w-full grid grid-cols-4 gap-20'>
+                    <div className='grid place-items-center grid-cols-1 min-[670px]:grid-cols-2 min-[1050px]:grid-cols-3 min-[1300px]:grid-cols-4 gap-10'>
                     {    favorites.map((movie) => (
                                 <div key={movie.id} className='w-[300px] relative'>
                                         <div onClick={() => handleOpenMovie(movie.id)} className='flex group flex-col gap-2 cursor-pointer trans hover:scale-105'>

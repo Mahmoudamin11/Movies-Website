@@ -80,6 +80,10 @@ const Navbar = memo(() => {
   const user = useSelector((state) => state.user.user);
 
   const toggleIsOpen = () => { 
+    if (isOpen)
+      document.body.style.overflowY = 'scroll'
+    else
+      document.body.style.overflowY = 'hidden'
     setIsOpen(!isOpen);
   }
   return (
@@ -112,7 +116,7 @@ const Navbar = memo(() => {
             <div className='max-sm:hidden'>
               <UserInfo />
             </div>
-            <FontAwesomeIcon onClick={toggleIsOpen} icon={faBars} className={`sm:hidden text-white text-2xl w-fit mt-2`} />
+            <FontAwesomeIcon onClick={toggleIsOpen} icon={faBars} className={`sm:hidden cursor-pointer text-white text-2xl w-fit mt-2`} />
           </div> : 
           <button onClick={goToLogin} className=' bg-white px-5 py-2 text-sec-color rounded-md font-semibold trans hover:bg-gray-100'>
             Login

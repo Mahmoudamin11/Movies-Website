@@ -71,7 +71,7 @@ const PopularPeoplePage = () => {
                 <div className="p-20 max-md:p-10 max-sm:p-5 w-full min-h-screen">
             <h1 className="text-3xl font-bold mb-8">Popular people</h1>
             <div className='grid place-items-center grid-cols-1 min-[670px]:grid-cols-2 min-[1050px]:grid-cols-3 min-[1300px]:grid-cols-4 gap-10'>
-                {popularPeople.length > 0 && popularPeople.map((person, index) => (
+                {popularPeople.length > 0 && popularPeople.map((person, index)  => person.gender == 2 ?  (
                     <div key={person.id} onClick={() => goToPerson(person.id, person.name)} className="cursor-pointer trans hover:scale-105 flex flex-col items-center w-[250px]  shadow-md rounded-b-[8px]">
                         <div className="relative w-[250px]">
                             <span className="absolute top-2 left-2 bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold">
@@ -86,13 +86,13 @@ const PopularPeoplePage = () => {
                         </div>
                         <h2 className="py-3 text-lg font-semibold text-main-color">{person.name}</h2>
                     </div>
-                ))}
+                ) : null)}
             </div>
         </div>
             }
 
             <div className='flex w-full justify-center items-center gap-5 max-sm:gap-1 pb-20 max-md:pb-10 max-sm:pt-5 max-sm:pb-5 '>
-                <button onClick={() => changePage(-1)} className='px-3 rounded-md py-1 outline-none bg-sec-color trans hover:bg-third-color text-white font-semibold'>-</button>
+                <button onClick={() => changePage(-1)} className='px-3 rounded-md py-1 outline-none bg-sec-color trans hover:bg-third-color text-white font-semibold'>{'<'}</button>
                 <span className='font-semibold flex items-center gap-1  min-w-fit text-center'>
                     <button onClick={() => makePage(1)} className={`py-1 px-2 rounded-sm ${page === 1 ? "bg-gray-300" : ""} outline-none`}>1</button>
                     <button onClick={() => makePage(2)} className={`py-1 px-2 rounded-sm ${page === 2 ? "bg-gray-300" : ""} outline-none`}>2</button>
@@ -107,7 +107,7 @@ const PopularPeoplePage = () => {
                     <p>...</p>
                     {!loading && !error && <button onClick={() => makePage(500)} className={`py-1 px-2 rounded-sm ${page === 500 ? "bg-gray-300" : ""} outline-none`}>500</button>}
                 </span>
-                <button onClick={() => changePage(+1)} className='px-3 rounded-md py-1 outline-none bg-sec-color trans hover:bg-third-color text-white font-semibold'>+</button>
+                <button onClick={() => changePage(+1)} className='px-3 rounded-md py-1 outline-none bg-sec-color trans hover:bg-third-color text-white font-semibold'>{'>'}</button>
             </div>
         </>
     );

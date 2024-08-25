@@ -30,7 +30,7 @@ const BackdropVideo = memo(({imgURL , videoURL}) => {
                         src={imgURL}
                         alt="Movie video"
                         Transition={Blur}
-                        style={{ minWidth: '100%', height: '300px' }}
+                        style={{ minWidth: '100%', height: '100%' }}
                         className="backdropIMG"
                         loader={<div className=' animate-pulse border-r-[1px] border-slate-50 border-solid' style={{ background: 'var(--third-color)' }} />}
                         loading="lazy"

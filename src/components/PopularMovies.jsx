@@ -56,7 +56,6 @@ const Popular = memo(() => {
                     setLoading(true);
                     const movies = await getTopRatedMovies();
                     setTopRatedMovies(movies);
-                    console.log(movies.results);
                     setError("");
                 } catch (error) {
                     console.error('Failed to fetch upcoming Movies:', error);
@@ -99,7 +98,7 @@ const Popular = memo(() => {
                         {
                             topRatedMovies?.length > 0 && 
                             topRatedMovies.slice(0, moviesCount).map((movie) => (
-                                <div key={movie.id} onClick={() => handleOpenMovie(movie.id)} className='relative z-50 flex group flex-col  gap-2 pt-4 px-2  cursor-pointer trans hover:scale-105'>
+                                <div key={movie.id} onClick={() => handleOpenMovie(movie.id)} className='relative z-40 flex group flex-col  gap-2 pt-4 px-2  cursor-pointer trans hover:scale-105'>
                                     <AsyncImage
                                             src={`https://image.tmdb.org/t/p/w185${movie.poster_path}`}
                                             Transition={Blur}

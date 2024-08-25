@@ -50,28 +50,30 @@ const Media = memo(() => {
             <div className='flex gap-10 items-center'>
                 <h1 className='font-bold text-2xl'>Media</h1>
                 <div className='flex gap-5 font-bold items-center mt-2  h-full'>
-                    {images?.backdrops?.length != 0 && <button onClick={() => toggleShown('images')} className={` py-1 cursor-pointer trans hover:opacity-70 outline-none ${shown == 'images' ? "active" : "notActive"}`}>Backdrops <span className='text-gray-400 '>{images?.backdrops?.length}</span></button>}
-                    {videos?.results?.length != 0 && <button onClick={() => toggleShown('videos')} className={` py-1 cursor-pointer trans hover:opacity-70 outline-none ${shown == 'videos' ? "active" : "notActive"}`}>Videos <span className='text-gray-400 '>{videos?.results?.length}</span></button>}
-                    {images?.posters?.length != 0 && <button onClick={() => toggleShown('posters')} className={` py-1 cursor-pointer trans hover:opacity-70 outline-none ${shown == 'posters' ? "active" : "notActive"}`}>Posters <span className='text-gray-400 '>{images?.posters?.length}</span></button>}
+                    {images?.backdrops?.length != 0 && <button onClick={() => toggleShown('images')} className={` py-1 cursor-pointer trans hover:opacity-70 outline-none max-sm:text-sm ${shown == 'images' ? "active" : "notActive"}`}>Backdrops <span className='text-gray-400 '>{images?.backdrops?.length}</span></button>}
+                    {videos?.results?.length != 0 && <button onClick={() => toggleShown('videos')} className={` py-1 cursor-pointer trans hover:opacity-70 outline-none max-sm:text-sm ${shown == 'videos' ? "active" : "notActive"}`}>Videos <span className='text-gray-400 '>{videos?.results?.length}</span></button>}
+                    {images?.posters?.length != 0 && <button onClick={() => toggleShown('posters')} className={` py-1 cursor-pointer trans hover:opacity-70 outline-none max-sm:text-sm ${shown == 'posters' ? "active" : "notActive"}`}>Posters <span className='text-gray-400 '>{images?.posters?.length}</span></button>}
                 </div>
             </div> 
             <div className='flex  w-full'>
                 {status === 'loading' && <p>Loading...</p>}
                 {status === 'failed' && <Error error={error} />}
                 {status === 'succeeded' && (
-                    <div ref={scrollContainerRef} className={`flex w-full overflow-x-scroll rounded-t-md pb-2`}>
+                    <div ref={scrollContainerRef} className={`flex w-full overflow-x-scroll rounded-t-md pb-2 h-[300px] max-sm:h-[200px]`}>
                         
-                        {shown === 'images' && images.backdrops && images.backdrops.length != 0  && images.backdrops.slice(0, visibleImages).map((image) => (
-                            <AsyncImage
-                                key={image.file_path}
-                                src={`https://image.tmdb.org/t/p/w500${image.file_path}`}
-                                alt="Movie backdrop"
-                                Transition={Blur}
-                                style={{ minWidth: '50%', height: '300px'}}
-                                loader={<div className=' animate-pulse border-r-[1px] border-slate-50 border-solid' style={{ background: 'var(--third-color)' }} />}
-                                loading='lazy'
-                            />
-                        ))}
+                        {shown === 'images' && images.backdrops && images.backdrops.length != 0  && 
+                            images.backdrops.slice(0, visibleImages).map((image) => (
+                                <AsyncImage
+                                    key={image.file_path}
+                                    src={`https://image.tmdb.org/t/p/w500${image.file_path}`}
+                                    alt="Movie backdrop"
+                                    Transition={Blur}
+                                    style={{ minWidth: '50%', height: '100%'}}
+                                    loader={<div className=' animate-pulse border-r-[1px] border-slate-50 border-solid' style={{ background: 'var(--third-color)' }} />}
+                                    loading='lazy'
+                                />
+                            ))
+                        }
 
                         {shown === 'posters' && images.posters && images.posters.length != 0  && images.posters.slice(0, visiblePosters).map((image) => (
                             <AsyncImage
@@ -79,7 +81,7 @@ const Media = memo(() => {
                                 src={`https://image.tmdb.org/t/p/w342${image.file_path}`}
                                 alt="Movie backdrop"
                                 Transition={Blur}
-                                style={{ minWidth: '25%', height: '300px'}}
+                                style={{ minWidth: '25%', height: '100%'}}
                                 loader={<div className=' animate-pulse border-r-[1px] border-slate-50 border-solid' style={{ background: 'var(--third-color)' }} />}
                                 loading='lazy'
                             />
@@ -114,7 +116,7 @@ const Media = memo(() => {
 
                         {images.posters && visiblePosters < images.posters.length && shown === 'posters' && <div  className="bg-slate-50 min-w-[25%] font-bold flex  items-center px-2  h-full">
                                 <div onClick={handleLoadMorePosters} className='flex gap-1 items-center cursor-pointer'>
-                                    <button className='trans outline-none opacity-100 hover:opacity-70 text-lg'>Load More</button>
+                                    <button className='trans outline-none opacity-100 hover:opacity-70 text-lg max-sm:text-[15px]'>Load More</button>
                                     <img src={arrowRight} alt="" className='w-5 mt-1' />
                                 </div>
                         </div>}

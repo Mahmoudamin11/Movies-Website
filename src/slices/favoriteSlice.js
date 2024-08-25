@@ -81,16 +81,13 @@ const favoriteSlice = createSlice({
             state.error = action.error.message;
         })
         .addCase(removeFavorite.pending, (state) => {
-            console.log('Remove favorite pending');
             state.loading = true;
         })
         .addCase(removeFavorite.fulfilled, (state, action) => {
-            console.log('Remove favorite fulfilled', action.payload);
             state.items = state.items.filter(item => item.id !== action.payload.id);
             state.loading = false;
         })
         .addCase(removeFavorite.rejected, (state, action) => {
-            console.log('Remove favorite rejected', action.error);
             state.loading = false;
             state.error = action.error.message;
         });

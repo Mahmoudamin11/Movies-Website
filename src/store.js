@@ -8,6 +8,7 @@ import favoriteSlice from './slices/favoriteSlice';
 import authReducer from './slices/authSlice';
 import sessionSlice from './slices/sessionSlice';
 import userSlice from './slices/userSlice';
+import RatingSlice from './slices/RatingSlice';
 
 const store = configureStore({
     reducer: {
@@ -19,7 +20,8 @@ const store = configureStore({
         recommendations: RecommendationsSlice,
         auth: authReducer,
         session: sessionSlice,
-        user: userSlice
+        user: userSlice,
+        ratings:RatingSlice
     },
 });
 

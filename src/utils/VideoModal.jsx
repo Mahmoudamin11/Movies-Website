@@ -21,7 +21,7 @@ const VideoModal = ({ videoURL, isOpen, onClose }) => {
     
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="relative flex flex-col bg-white rounded-lg  w-[60%] h-3/4">
+            <div className="relative flex flex-col bg-white rounded-lg max-sm:w-[90%] max-sm:h-[70%] w-[60%] h-3/4">
                 <div className='w-full text-white flex justify-between py-3 px-4 items-center bg-black'>
                     <h1 className='font-bold text-2xl'>{details.title}</h1>
                     <FontAwesomeIcon onClick={

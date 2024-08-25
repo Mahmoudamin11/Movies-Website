@@ -14,6 +14,7 @@ const PersonPage = () => {
     const [knownFor, setKnownFor] = useState([]);
     const [shownMovies, setshownMovies] = useState(5);
     const nav = useNavigate();
+    const [showKnownAs, setShowKnownAs] = useState(3);
     const goToMovie = (id) => { 
         nav(`/movie/${id}`)
     }
@@ -50,21 +51,40 @@ const PersonPage = () => {
     if (!person) return <LoadingSpinner />;
 
     
-
     const loadMoreMovies = () => { 
         setshownMovies((prev) => prev  + 5);
     }
 
+    const showAllNames = () => { 
+        setShowKnownAs(prev => prev + person?.also_known_as?.length - prev)
+    }
+
+    console.log(person);
+    
+
     return (
-        <div className="px-20 py-10 grid grid-cols-[300px_1fr] gap-10 overflow-x-hidden">
+        <div className="px-20 max-md:px-10 max-sm:px-5 max-sm:py-5 py-10 grid w-full grid-cols-[300px_1fr] max-[940px]:flex flex-col  gap-10 overflow-x-hidden">
             {/* SideBar */}
-            <div className='flex flex-col gap-5'>
-                <AsyncImage
-                    src={`https://image.tmdb.org/t/p/w300${person.profile_path}`}
-                    Transition={Blur}
-                    style={{ width: '300px', height: '450px', borderRadius: "6px" }}
-                    loader={<div className=' animate-pulse' style={{ background: 'var(--third-color)' }} />}
-                />
+            <div className='flex flex-col   gap-5'>
+                <div className='max-sm:hidden'>
+                    <AsyncImage
+                        src={`https://image.tmdb.org/t/p/w300${person.profile_path}`}
+                        Transition={Blur}
+                        
+                        style={{ width: '300px', height: '450px', borderRadius: "6px" }}
+                        loader={<div className=' animate-pulse' style={{ background: 'var(--third-color)' }} />}
+                    />
+                </div>
+                <div className='sm:hidden'>
+                    <AsyncImage
+                        src={`https://image.tmdb.org/t/p/w300${person.profile_path}`}
+                        Transition={Blur}
+                        
+                        style={{ width: '200px', height: '250px', borderRadius: "6px" }}
+                        loader={<div className=' animate-pulse' style={{ background: 'var(--third-color)' }} />}
+                    />
+                </div>
+                <h1 className='text-3xl font-bold sm:hidden'>{person.name}</h1>
                 <div className='flex flex-col gap-3'>
                     <h1 className='font-bold text-xl'>Personal Info</h1>
                     <div className='flex flex-col gap-4'>
@@ -88,18 +108,19 @@ const PersonPage = () => {
                             <span className='font-semibold'>Deathday</span>
                             <span className='text-sm'>{formatDate(person.deathday)}</span>
                         </div>}
-                        <div className='flex flex-col'>
+                        {person?.place_of_birth &&<div className='flex flex-col'>
                             <span className='font-semibold'>Place of birth</span>
                             <span className='text-sm'>{person.place_of_birth}</span>
-                        </div>
-                        <div className='flex flex-col'>
+                        </div>}
+                        <div className='flex flex-col max-[940px]:hidden'>
                             <span className='font-semibold'>Also known as</span>
                             <div className='flex flex-col gap-1'>
                                 {
-                                    person?.also_known_as?.map((name) => (
+                                    person?.also_known_as?.slice(0, showKnownAs).map((name) => (
                                         <span className='text-sm'>{name}</span>
                                     ))
                                 }
+                                {showKnownAs === 3 && <button onClick={showAllNames} className='  w-fit outline-none text-sm mt-1 rounded-md text-third-color hover:underline hover:text-fourth-color  trans'>See All Names</button>}
                             </div>
                         </div>
                     </div>
@@ -107,20 +128,19 @@ const PersonPage = () => {
 
             </div>
             
-            <div id='content' className='w-full flex flex-col gap-8 text-left'>
-                <h1 className='text-3xl font-bold'>{person.name}</h1>
+            <div id='content' className=' flex flex-col gap-8 text-left'>
+                <h1 className='text-3xl font-bold max-sm:-mb-5 max-sm:hidden'>{person.name}</h1>
                 <div className=' flex flex-col gap-1'>
                     <h2 className='font-semibold text-lg '>Biography</h2>
-                    <p>{person.biography ? person.biography : `Nice and hardworking ${person.gender ? 'actress' : 'actor'} that has a lot of credits and achivements.`}</p>
+                    <p className=''>{person.biography ? person.biography : `Nice and hardworking ${person.gender ? 'actress' : 'actor'} that has a lot of credits and achivements.`}</p>
                 </div>
                 <div className='flex flex-col gap-1 w-full h-fit flex-grow'>
                     <h2 className='font-semibold text-lg '>Known for</h2>
-                    <div id='scroll' className='w-[1000px] h-fit overflow-x-scroll overflow-y-hidden flex gap-2 py-2'>
+                    <div id='scroll' className='w-[1000px] max-[1300px]:w-[650px] max-[1100px]:w-[500px] max-sm:w-full h-fit overflow-x-scroll overflow-y-hidden flex gap-2 py-2'>
                         {
-                            knownFor.length > 0 && knownFor.slice(0, shownMovies).map((movie) => (
+                            knownFor.length > 0 && knownFor.slice(0, shownMovies).map((movie) => movie.vote_average*10 > 20 && !person.adult &&  (
                                 <div onClick={() => goToMovie(movie.id)} key={movie.id} className='cursor-pointer group trans hover:scale-105 relative w-[150px] h-full flex flex-col gap-1'>
                                     <AsyncImage
-                                        // className='group'
                                         src={`https://image.tmdb.org/t/p/w185${movie.poster_path}`}
                                         Transition={Blur}
                                         style={{ width: '150px', height: '220px', borderRadius: "6px" }}
@@ -140,9 +160,20 @@ const PersonPage = () => {
                         }
                     </div>
                 </div>
+                {person?.also_known_as.length > 0 && <div className='flex flex-col min-[940px]:hidden'>
+                    <span className='font-semibold text-xl'>Also known as</span>
+                    <div className='flex flex-col gap-1 pl-1'>
+                        {
+                            person?.also_known_as?.slice(0, showKnownAs).map((name) => (
+                                <span className='text-sm'>{name}</span>
+                            ))
+                        }
+                        {showKnownAs === 3 && person?.also_known_as.length > 3 &&  <button onClick={showAllNames} className='  w-fit outline-none text-sm mt-1 rounded-md text-third-color hover:underline hover:text-fourth-color  trans'>See All Names</button>}
+                    </div>
+                </div>}
             </div>
         </div>
     );
 };
 
-export default PersonPage
+export default PersonPage;
