@@ -31,13 +31,14 @@ const Recommendations = memo(() => {
             {
                 status === 'failed' && inView && <Error error={error.message} />
             }
-            {
-                status === 'loading' && inView && <LoadingSpinnerSections />
-            }
-            {status === 'succeeded' &&  inView &&
+            
+            {  inView &&
             <div className='flex flex-col gap-5'>
                 <h1 className='font-bold text-2xl'>Recommendations</h1>
-                <div className="flex gap-5 max-sm:gap-3 overflow-x-scroll h-fit overflow-y-hidden py-2 ">
+                {
+                    status === 'loading' && inView && <LoadingSpinnerSections />
+                }
+                {status === 'succeeded' &&<div className="flex gap-5 max-sm:gap-3 overflow-x-scroll h-fit overflow-y-hidden py-2 ">
                     {recommendations?.length > 0 && recommendations.slice(0, recCount).map((movie) => movie.poster_path && movie.backdrop_path ?  (
                         <OneRecommendation key={movie.id} movie={movie} />
                     ) : null)}
@@ -52,7 +53,7 @@ const Recommendations = memo(() => {
                     <button className='trans outline-none opacity-100 group-hover:opacity-70 text-lg max-sm:text-[15px]'>Load More</button>
                     <img src={arrowRight} alt="" className='w-5 mt-1' />
                 </button>}
-                </div>
+                </div>}
             </div>
             }
         </div>

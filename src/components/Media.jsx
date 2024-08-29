@@ -6,6 +6,9 @@ import { AsyncImage } from 'loadable-image';
 import { Blur } from 'transitions-kit';
 import arrowRight from '../assets/arrow-right.svg'
 import BackdropVideo from '../utils/BackdropVideo';
+import { useInView } from 'react-intersection-observer';
+import { ref } from 'firebase/storage';
+import LoadingSpinnerSections from '../utils/LoadingSpinnerSections';
 
 const Media = memo(() => {
     const { id } = useParams(); // useParams to get the movie ID from the URL
@@ -24,11 +27,15 @@ const Media = memo(() => {
     };
     
     const { images, videos, status, error } = useSelector((state) => state.media);
+    const { ref, inView } = useInView({
+        triggerOnce: true,
+        threshold: 0.1,
+    });
     useEffect(() => {
-        if (id) {
+        if (inView && id) {
             dispatch(fetchMovieMedia(id));
         }
-    }, [dispatch, id]);
+    }, [dispatch, id, inView]);
 
     const [visibleVideos, setvisibleVideos] = useState(5); 
     const [visibleImages, setvisibleImages] = useState(5); 
@@ -46,7 +53,7 @@ const Media = memo(() => {
 
     return (
         (images?.posters?.length != 0 || images?.backdrops?.length != 0 || videos?.results?.length != 0) &&
-        <div className=' flex flex-col gap-5'>
+        <div ref={ref} className=' flex flex-col gap-5'>
             <div className='flex gap-10 items-center'>
                 <h1 className='font-bold text-2xl'>Media</h1>
                 <div className='flex gap-5 font-bold items-center mt-2  h-full'>
@@ -55,9 +62,9 @@ const Media = memo(() => {
                     {images?.posters?.length != 0 && <button onClick={() => toggleShown('posters')} className={` py-1 cursor-pointer trans hover:opacity-70 outline-none max-sm:text-sm ${shown == 'posters' ? "active" : "notActive"}`}>Posters <span className='text-gray-400 '>{images?.posters?.length}</span></button>}
                 </div>
             </div> 
-            <div className='flex  w-full'>
-                {status === 'loading' && <p>Loading...</p>}
-                {status === 'failed' && <Error error={error} />}
+            {<div className='flex  w-full'>
+                {status === 'loading' && <LoadingSpinnerSections />}
+                {status === 'failed' && (images?.backdrops?.length > 0 || videos?.results?.length > 0 ||images?.posters?.length > 0 ) && <p className='w-full h-[300px] text-2xl flex items-center justify-center text-third-color font-bold'>{error}</p>}
                 {status === 'succeeded' && (
                     <div ref={scrollContainerRef} className={`flex w-full overflow-x-scroll rounded-t-md pb-2 h-[300px] max-sm:h-[200px]`}>
                         
@@ -123,7 +130,7 @@ const Media = memo(() => {
                         
                     </div>
                 )}
-            </div>
+            </div>}
         </div>
     );
 });

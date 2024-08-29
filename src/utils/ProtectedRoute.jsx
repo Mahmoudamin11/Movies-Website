@@ -5,8 +5,6 @@ import Profile from '../pages/Profile';
 
 const ProfileProtectedRoute = ({children}) => {
     const user = useSelector((state) => state.user.user);
-    console.log(user);
-    
     if (!user)
         return <Navigate to={'/'} />
 

@@ -1,21 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react'
 import { formatDate } from '../utils/Formats';
 import { Blur } from 'transitions-kit';
 import { AsyncImage } from 'loadable-image';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-const Review = () => {
-    const {reviews} = useSelector((state) => state.movieCredits);
-    const [review, setReview] = useState({});
-    useEffect(() => { 
-        let rand = Math.floor(Math.random() * reviews.length);
-        if (rand >= 0 && rand < reviews.length )
-            setReview(reviews[rand]);
-    }, [reviews]);
-
-    // read all content
+const ReviewShown = ({review}) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const toggleReadMore = () => setIsExpanded(!isExpanded);
     const previewContent = review && review.content && review.content.length > 300 ? review.content.substring(0, 300) + '...' : review?.content;
@@ -57,4 +47,4 @@ const Review = () => {
     )
 }
 
-export default Review
+export default ReviewShown

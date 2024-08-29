@@ -27,8 +27,6 @@ const DetailedMovie = () => {
   const dispatch = useDispatch();
   const {user} = useSelector((state) => state.user);
   const {ratings} = useSelector((state) => state.ratings);
-  console.log("ratings :", ratings);
-   
   const { details, status, error } = useSelector((state) => state.movieDetail);
   const { credits, status: creditsStatus, error: creditsError } = useSelector((state) => state.movieCredits);
   const genres = formatGenres(details.genres);
@@ -97,7 +95,6 @@ const DetailedMovie = () => {
   const submitRating = async (rating) => {
       try {
           dispatch(addOrUpdateRating({ userId: user.uid, movie: details, rating}));
-          console.log("Rate:", rating);
           setCurrentRate(rating);
       } catch (error) {
           console.error('Error submitting rating:', error);
@@ -108,7 +105,6 @@ const DetailedMovie = () => {
     const fetchRatings = async () => {
         try {
             const fetchedRating = await dispatch(fetchRating({ userId: user?.uid, movieId: id })).unwrap();
-            console.log("Fetched Rating:", fetchedRating); // Add this for debugging
             setCurrentRate(fetchedRating.rating);
         } catch (error) {
             setFetchError(error.message);
@@ -117,21 +113,20 @@ const DetailedMovie = () => {
             setLoading(false);
         }
     };
-
     fetchRatings();
 }, [user?.uid, id]);
 
   const handleDeleteRating = async () => {
       try {
           dispatch(deleteRating({ userId: user?.uid, movieId: id }));
+          setShowRate(false)
           setCurrentRate(null); 
       } catch (error) {
           setError('Failed to delete rating');
           console.error('Error deleting rating:', error);
       }
   };
-
-  console.log(details);
+  
   
 
   return (
@@ -140,13 +135,12 @@ const DetailedMovie = () => {
       {status === 'failed' && <Error error={error} />}
       {status === 'succeeded' && details && (
         <div className='flex flex-col gap-10'>
-          <Palette src={`https://image.tmdb.org/t/p/w500/${details.backdrop_path}`} crossOrigin="anonymous" format="hex" colorCount={4}>
+          <Palette src={details?.poster_path ? `https://image.tmdb.org/t/p/w500/${details.poster_path}` : `https://image.tmdb.org/t/p/w500/${details.backdrop_path}`} crossOrigin="anonymous" format="hex" colorCount={4}>
             {({ data }) => {
               if (data)
                 setBackgroundColor(data);
             }}
           </Palette>
-          
           <div className="relative w-full max-[870px]:hidden " style={{ height: '600px' }}>
               <LazyLoadBackgroundImage
               className='px-20 flex items-center justify-center'
@@ -196,7 +190,7 @@ const DetailedMovie = () => {
                     </div>
                   </div>
                   <div className='flex gap-5 ml-5 flex-wrap'>
-                    <button onClick={handleShowRate} className=' outline-none bg-main-color -ml-4 py-3 mx-auto trans hover:bg-sec-color rounded-full text-white text-sm font-semibold min-w-[156px]'>
+                    <button onClick={handleShowRate} className='relative outline-none bg-main-color -ml-4 py-3 mx-auto trans hover:bg-sec-color rounded-full text-white text-sm font-semibold min-w-[156px]'>
                       {currentRate && !loading ? <span className='text-green-400'>{currentRate * 20}%</span> : !currentRate && !loading ? 'Rate the movie?' : loading ? <img src={loader} className='w-5 mx-auto' alt="" /> : null}
                     </button>
                     {showRate && <RateMovie deleteRate={handleDeleteRating} color={backgroundColor[2]} prevRate={currentRate ? currentRate : 0} handleClose={handleShowRate} submitRating={submitRating} /> }

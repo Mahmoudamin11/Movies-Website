@@ -10,6 +10,7 @@ import { AsyncImage } from 'loadable-image';
 import { useNavigate } from 'react-router-dom';
 import { fetchAllRatings } from '../slices/RatingSlice';
 import LoadingSpinnerSections from '../utils/LoadingSpinnerSections';
+import { fetchAllUserReviews } from '../utils/review';
 
 const Profile = () => {
     const user = useSelector((state) => state.user.user);
@@ -19,7 +20,9 @@ const Profile = () => {
     const ratings = useSelector((state) => state.ratings.allRatings); 
     const ratingError = useSelector((state) => state.ratings.error); 
     const ratingLoading = useSelector((state) => state.ratings.loading);
-    console.log(ratings);
+    const [userReviews, setUserReviews] = useState([])
+    const [reviewLoading, setReviewLoading] = useState(false)
+    const [reviewError, setReviewError] = useState('')
     
     const containerRef = useRef(null);
     const dispatch = useDispatch();
@@ -109,14 +112,37 @@ const Profile = () => {
     }
 
     const shownMovies = 6;
+    const [shownReviews, setShownReviews] = useState(6);
+
+    const loadMoreReviews = () => { 
+        if (shownReviews + 5 > userReviews.length)
+            setShownReviews(prev => prev + userReviews.length - prev)
+        else 
+            setShownReviews(prev => prev + 5)
+    }
 
     const loadMore = () => { 
         if (shownRatings + 5 > ratings.length)
             setShownRatings(prev => prev + ratings.length - prev)
         else 
             setShownRatings(prev => prev + 5)
-
     }
+
+    useEffect(() => {
+        const loadUserReviews = async () => {
+            try {
+                setReviewLoading(true)
+                const reviews = await fetchAllUserReviews(user?.uid);
+                setUserReviews(reviews);
+            } catch (err) {
+                setReviewError(err.message);
+            } finally { 
+                setReviewLoading(false)
+            }
+        };
+        
+        loadUserReviews();
+    }, [user?.uid]);
 
     return (
         <div className='min-h-screen flex flex-col items-start gap-16 px-20 max-sm:px-5 py-20 w-full'>
@@ -220,6 +246,49 @@ const Profile = () => {
                         favError && <h1 className='w-full text-center text-3xl border-[1px] border-solid p-20 rounded-md text-third-color font-bold'>{favError}</h1>
                     }
             </div>}
+            {/* Reviewed Movies */}
+            { <div className='flex flex-col gap-3 w-full'>
+                <h1 className='text-3xl font-bold'>Movies You Reviewed</h1>
+                {userReviews.length > 0 && !reviewLoading && !reviewError && <div 
+                className="relative trans pt-2 pb-4 px-4 bg-waves bg-cover bg-top outline-none   rounded-md w-full h-fit flex overflow-x-scroll overflow-y-hidden gap-10 ">
+                        {
+                            userReviews?.length > 0 && 
+                            userReviews.slice(0, shownReviews).map((movie) => (
+                                <div key={movie.id} onClick={() => handleOpenMovie(movie.id)} className='relative z-40 flex group flex-col w-[150px]  gap-2 pt-4 px-2  cursor-pointer trans hover:scale-105'>
+                                    <AsyncImage
+                                            src={`https://image.tmdb.org/t/p/w185${movie.poster_path}`}
+                                            Transition={Blur}
+                                            style={{ width: '150px', height: '250px', borderRadius: "6px" }}
+                                            loader={<div className=' animate-pulse' style={{ background: 'var(--third-color)' }} />}
+                                    />
+                                    <div className=' group-hover:opacity-80 trans '>
+                                        <span className=' font-bold text-sm '>{movie.title}</span>
+                                    </div>
+                                </div>
+                            ))
+                        }
+                        {userReviews.length > shownReviews  && 
+                            <button onClick={loadMoreReviews} className="bg-slate-50 outline-none translate-x-0 hover:scale-105 group cursor-pointer trans rounded-md mt-4 min-w-[150px] font-semibold flex  items-center px-2 h-[250px] ">
+                                    <div  className='flex gap-1 items-center cursor-pointer'>
+                                        <button className='trans outline-none opacity-100 group-hover:opacity-70 '>Load More</button>
+                                        <FontAwesomeIcon icon={faArrowRight} className='w-fit trans group-hover:opacity-70' />
+                                    </div>
+                            </button>
+                            }
+                        
+                    </div>}
+                    {
+                        userReviews.length == 0 && !reviewLoading && !reviewError &&  <h1 className='w-full text-center text-3xl border-[1px] border-solid p-20 rounded-md text-third-color font-bold'>No Favorite Movies Chosen</h1>
+                    }
+
+                    {
+                        reviewLoading && <LoadingSpinnerSections />
+                    }
+                    {
+                        reviewError && <h1 className='w-full text-center text-3xl border-[1px] border-solid p-20 rounded-md text-third-color font-bold'>{favError}</h1>
+                    }
+            </div>}
+
             { !ratingLoading && !ratingError &&  <div ref={containerRef} className='flex flex-col gap-3 w-full'>
                 <h1 className='text-3xl font-bold'>Movies You Rated</h1>
                 {ratings.length > 0 &&<div 
@@ -261,6 +330,7 @@ const Profile = () => {
                         ratingLoading && <LoadingSpinnerSections />
                     }
             </div>}
+
         </div>
     );
 };

@@ -3,8 +3,8 @@ import React, { memo, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { Blur } from 'transitions-kit';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import UserList from './UserList';
 
 const UserInfo = memo(() => {

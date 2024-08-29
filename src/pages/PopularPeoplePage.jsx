@@ -71,7 +71,7 @@ const PopularPeoplePage = () => {
                 <div className="p-20 max-md:p-10 max-sm:p-5 w-full min-h-screen">
             <h1 className="text-3xl font-bold mb-8">Popular people</h1>
             <div className='grid place-items-center grid-cols-1 min-[670px]:grid-cols-2 min-[1050px]:grid-cols-3 min-[1300px]:grid-cols-4 gap-10'>
-                {popularPeople.length > 0 && popularPeople.map((person, index)  => person.gender == 2 ?  (
+                {popularPeople.length > 0 && popularPeople.map((person, index)  => !person.adult && person.profile_path && person.name != "Christine Bermas" && person.name != "Min Do-yoon" && person.name != "Rika" && person.name != "Dyessa Garcia" && person.name != "Yoo Jung" && person.name != "Yoo Ji-hyun" && person.name != "Jin Si-ah" && person.name != "Han Seo-ah" && person.name != "Kim Do-hee" && person.name != "Hee-jeong" && person.name != "Tresi Gazal" && person.name != "AJ Raval" && person.name != "Asami Ogawa" && person.name != "Han Yi-seul" && person.name != "Baek Se-ri" && person.name != "Erika Balagtas"&& person.name != "Wang Churan"&& person.name != "Seung Ha" && person.name != "Yda Manzano" && person.name != "Li Xinai" && person.name != "Kiami Davael"    ?  (
                     <div key={person.id} onClick={() => goToPerson(person.id, person.name)} className="cursor-pointer trans hover:scale-105 flex flex-col items-center w-[250px]  shadow-md rounded-b-[8px]">
                         <div className="relative w-[250px]">
                             <span className="absolute top-2 left-2 bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold">

@@ -6,8 +6,6 @@ import { db } from '../firebase/firebase';
 
 export const addOrUpdateRating = createAsyncThunk('ratings/addOrUpdateRating', async ({ userId, movie, rating }) => {
     try {
-        console.log(movie);
-        
         const ratingRef = doc(db, 'ratings', `${userId}_${movie.id}`);
         await setDoc(ratingRef, {
             userId,
@@ -31,7 +29,6 @@ export const fetchRating = createAsyncThunk('ratings/fetchRating', async ({ user
             const data = docSnap.data();
             return { movieId, rating: data.rating, movie: data.movie };
         } else {
-            console.log("No such rating found!");
             return { movieId, rating: null, movie: null };
         }
     } catch (error) {
@@ -133,8 +130,6 @@ const ratingsSlice = createSlice({
                 state.loading = true;
             })
             .addCase(fetchAllRatings.fulfilled, (state, action) => {
-                console.log("PAYLOAD", action.payload);
-                
                 state.allRatings = [];
                 action.payload.forEach(({ movieId, rating, movie }) => {
                     state.allRatings.push({ rating, movie });
@@ -143,7 +138,6 @@ const ratingsSlice = createSlice({
                 state.loading = false;
             })
             .addCase(fetchAllRatings.rejected, (state, action) => {
-                console.log("PAYLOAD ERROR", action.payload);
                 state.loading = false;
                 state.error = action.error.message;
             });

@@ -66,17 +66,23 @@ const MobileMenu = ({isOpen, toggleIsOpen}) => {
             {
                 (user && user?.uid) && (
                     !user.photoURL ? 
+                    <div className='flex gap-2 items-center w-fit mx-auto'>
+                        <div onClick={goToProfile} className='flex trans hover:opacity-scale-105 items-center justify-center mx-auto  w-14 h-14  trans rounded-full bg-white'>
+                            <FontAwesomeIcon icon={faUser} className='text-[20px] text-sec-color' />
+                        </div>
+                        <p className='text-lg w-fit text-white font-bold'>{user.displayName}</p>
+                    </div>
+                : <div className='flex gap-2 items-center w-fit mx-auto'>
                     <div onClick={goToProfile} className='flex trans hover:opacity-scale-105 items-center justify-center mx-auto  w-14 h-14  trans rounded-full bg-white'>
-                        <FontAwesomeIcon icon={faUser} className='text-[20px] text-sec-color' />
-                    </div>
-                : <div onClick={goToProfile} className='flex trans hover:opacity-scale-105 items-center justify-center mx-auto  w-14 h-14  trans rounded-full bg-white'>
-                        <AsyncImage
-                            src={user?.photoURL}
-                            Transition={Blur}
-                            style={{ width: '100%', height: '100%', borderRadius: "100%", objectFit: 'cover' }}
-                            loader={<div className=' animate-pulse' style={{ background: 'var(--third-color)' }} />}
-                        />
-                    </div>
+                            <AsyncImage
+                                src={user?.photoURL}
+                                Transition={Blur}
+                                style={{ width: '100%', height: '100%', borderRadius: "100%", objectFit: 'cover' }}
+                                loader={<div className=' animate-pulse' style={{ background: 'var(--third-color)' }} />}
+                            />
+                        </div>
+                        <p className='text-lg font-bold w-fit text-white'>{user.displayName}</p>
+                </div>
                 )
                 
             }

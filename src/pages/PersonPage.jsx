@@ -27,7 +27,6 @@ const PersonPage = () => {
         const fetchPerson = async () => {
             const response = await axios.get(`https://api.themoviedb.org/3/person/${pId}?api_key=${import.meta.env.VITE_API_KEY}`);
             setPerson(response.data);
-            console.log(response.data);
             
         };
         const fetchKnownFor = async () => {
@@ -36,7 +35,6 @@ const PersonPage = () => {
                 const movies = credits.cast.filter(credit => credit.media_type === 'movie' && credit.poster_path);
                 // Sort movies by popularity or any other criteria if needed
                 const sortedMovies = movies.sort((a, b) => b.popularity - a.popularity);
-                console.log(sortedMovies);
                 setKnownFor(sortedMovies);
             } catch (error) {
                 console.error('Failed to fetch known for movies:', error);
@@ -58,8 +56,6 @@ const PersonPage = () => {
     const showAllNames = () => { 
         setShowKnownAs(prev => prev + person?.also_known_as?.length - prev)
     }
-
-    console.log(person);
     
 
     return (
