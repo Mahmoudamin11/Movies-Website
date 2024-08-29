@@ -54,7 +54,7 @@ const SignUp = () => {
                     </div>
                     <div className='flex flex-col gap-5 items-start w-full'>
                         <button onClick={handleSignUp} className='outline-none bg-sec-color text-white rounded-md w-full trans hover:bg-third-color py-2'>Sign Up</button>
-                        <button onClick={goToLogin} className='outline-none text-center mx-auto text-sec-color trans underline hover:no-underline hover:text-third-color rounded-md w-fit'>Already have an account</button>
+                        <button onClick={goToLogin} className='outline-none text-center mx-auto text-sec-color trans underline hover:no-underline hover:text-third-color rounded-md w-fit'>Already have an account?</button>
                     </div>
                     {<p className={ `min-h-6 text-lg w-fit text-center font-semibold text-red-500 mx-auto ${error ? " visible" : " invisible"} `}>{error?.slice(10, error.length)}</p>}
                 </div>

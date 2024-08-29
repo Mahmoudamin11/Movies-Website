@@ -278,7 +278,7 @@ const Profile = () => {
                         
                     </div>}
                     {
-                        userReviews.length == 0 && !reviewLoading && !reviewError &&  <h1 className='w-full text-center text-3xl border-[1px] border-solid p-20 rounded-md text-third-color font-bold'>No Favorite Movies Chosen</h1>
+                        userReviews.length == 0 && !reviewLoading && !reviewError &&  <h1 className='w-full text-center text-3xl border-[1px] border-solid p-20 rounded-md text-third-color font-bold'>You din't review yet</h1>
                     }
 
                     {
