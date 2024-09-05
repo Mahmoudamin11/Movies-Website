@@ -23,7 +23,6 @@ const AddReview = ({id, close, prevReview}) => {
             try {
                 setLoading(true);
                 await saveReviewToFirebase(user.uid, details, review);
-                console.log('Review Submitted:', review);
                 setReview(''); 
                 close();
                 window.location.reload();

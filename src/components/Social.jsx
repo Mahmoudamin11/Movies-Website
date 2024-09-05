@@ -43,8 +43,8 @@ const Social = memo(() => {
         const getReview = async () => {
             try {
                 const userReview = await fetchReviewForMovie(user?.uid, id);
-                setPrevReview(userReview.review);
-                setReviewDate(formatDate(userReview.timestamp));
+                setPrevReview(userReview?.review);
+                setReviewDate(formatDate(userReview?.timestamp));
             } catch (err) {
                 setReviewError(err.message);
             } finally {
@@ -131,8 +131,8 @@ const Social = memo(() => {
                                         </div>
                                     </div>
                                 </div>}
-                                {!reviewError && <p className='mt-3 ml-3'>
-                                    {isExpanded  ? prevReview :  (prevReview.slice(0, 300) + (prevReview?.length > 300 ? '...' : ""))}
+                                {!reviewError && <p className='mt-3 h-full ml-3  pr-5'>
+                                    <span className='flex-wrap break-words'>{isExpanded  ? prevReview :  (prevReview.slice(0, 300) + (prevReview?.length > 300 ? '...' : ""))}</span>
                                     {prevReview?.length > 300 && <button
                                         onClick={toggleReadMore}
                                         className="ml-[2px] trans text-third-color font-bold hover:underline h-fit"

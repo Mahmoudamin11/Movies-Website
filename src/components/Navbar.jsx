@@ -16,7 +16,8 @@ const Navbar = memo(() => {
     nav("/")
     setPersonON(false);
     setMoviesON(false);
-    setIsOpen(false);
+    if (isOpen)
+      toggleIsOpen();
   }
   const popularRef = useRef(null);
   const moviesRef = useRef(null);

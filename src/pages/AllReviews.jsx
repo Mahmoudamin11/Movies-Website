@@ -13,8 +13,6 @@ const AllReviews = memo(() => {
     const loc = useLocation();
     const reviews = loc.state.reviews || [];
     const userReview = loc.state.prevReview ;
-    console.log(reviews);
-    console.log(userReview);
     
     const [backgroundColor, setBackgroundColor] = useState("");
     useEffect(() => { 
