@@ -289,16 +289,14 @@ const Profile = () => {
                                 </div>
                             ))
                         }
-                        {userReviews.length > shownReviews  && 
-                            <button onClick={loadMoreReviews} className="bg-slate-50 outline-none translate-x-0 hover:scale-105 group cursor-pointer trans rounded-md mt-4 min-w-[150px] font-semibold flex  items-center px-2 h-[250px] ">
-                                    <div  className='flex gap-1 items-center cursor-pointer'>
-                                        <button className='trans outline-none opacity-100 group-hover:opacity-70 '>Load More</button>
-                                        <FontAwesomeIcon icon={faArrowRight} className='w-fit trans group-hover:opacity-70' />
-                                    </div>
-                            </button>
-                            }
                         
                     </div>}
+                    {userReviews.length > shownReviews && !loading && !reviewError && 
+                            <div onClick={loadMoreReviews} className='w-full cursor-pointer outline-none flex items-center justify-center'>
+                                <button className='outline-none text-white px-10 mt-5 py-2 rounded-md  bg-sec-color trans hover:bg-third-color'>Load More</button>
+                            </div>
+                        }
+
                     {
                         userReviews.length == 0 && !reviewLoading && !reviewError &&  <h1 className='w-full text-center text-3xl border-[1px] border-solid p-20 rounded-md text-third-color font-bold'>You din't review yet</h1>
                     }

@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react'
+import React, { memo, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Review from './Review';
@@ -24,6 +24,7 @@ const Social = memo(() => {
     const [prevReview, setPrevReview] = useState('');
     const [reviewDate, setReviewDate] = useState(null);
     const nav = useNavigate();
+    const userReview = useRef(null);
     const seeAllReviews = () => { 
         nav(`/movie/${id}/reviews`,{ state: { reviews, prevReview} });
     }
@@ -51,13 +52,9 @@ const Social = memo(() => {
             }
         };
         getReview();
-        if (status == 'succeeded' && loc.state&&  loc.state.comingFrom === 'profileReview') { 
-            let rev ;
-            setTimeout(() => { 
-                rev = document.getElementById('userReview');
-                if (rev)
-                    rev.scrollIntoView({behavior: 'smooth'});
-            }, 500) 
+        if (status == 'succeeded' && loc.state&&  loc.state.comingFrom === 'profileReview') {
+            if (userReview.current)
+                userReview.current.scrollIntoView({behavior: 'smooth'})
         }
     }, [user?.uid, id, prevReview, reviews]);
 
@@ -111,8 +108,8 @@ const Social = memo(() => {
                                     </button>
                                 </div>
                             </div>
-                            <div id='userReview' className='w-full relative p-5 bg-gray-50 border-[1px] border-solid border-gray-300 rounded-md '>
-                                <div className='w-full flex justify-between items-center'>
+                            <div ref={userReview} className='w-full relative p-5 bg-gray-50 border-[1px] border-solid border-gray-300 rounded-md '>
+                                {!reviewError && <div className='w-full flex justify-between items-center'>
                                     <div className='flex gap-2 items-center'>
                                         {user && user.photoURL &&
                                             <AsyncImage
@@ -133,8 +130,8 @@ const Social = memo(() => {
                                             
                                         </div>
                                     </div>
-                                </div>
-                                <p className='mt-3 ml-3'>
+                                </div>}
+                                {!reviewError && <p className='mt-3 ml-3'>
                                     {isExpanded  ? prevReview :  (prevReview.slice(0, 300) + (prevReview?.length > 300 ? '...' : ""))}
                                     {prevReview?.length > 300 && <button
                                         onClick={toggleReadMore}
@@ -142,7 +139,10 @@ const Social = memo(() => {
                                     >
                                         {isExpanded ? 'Read Less' : 'Read More'}
                                     </button>}
-                                </p>
+                                </p>}
+                                {
+                                    reviewError && <p className='mt-3 ml-3'>{reviewError}</p>
+                                }
                             </div>
                         </div>
                     }

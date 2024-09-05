@@ -77,24 +77,7 @@ const DetailedMovie = () => {
   }
   
   const location = useLocation();
-  // const comingFrom = location.state.comingFrom ;
   
-
-  // useEffect(() => { 
-  //   if (comingFrom && comingFrom == 'profile') { 
-  //     const rev = document.getElementById("userReview");
-  //     // console.log('rev', rev);
-  //     // rev.scrollIntoView();
-  //     // const reviewTop = rev?.offsetTop;
-  //     // window.scrollTo(rev);
-  //     if (rev) { 
-  //       console.log(rev);
-  //       setTimeout(() => { 
-  //         rev.scrollIntoView({ behavior: 'smooth' });
-  //       }, 100)
-  //     }
-  //   }
-  // }, [comingFrom, location, user, user?.uid, id])
 
   useEffect(() => { 
     window.scroll(0,0)
