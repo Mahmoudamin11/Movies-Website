@@ -276,13 +276,13 @@ const Profile = () => {
                                     <AsyncImage
                                         src={`https://image.tmdb.org/t/p/w185${obj.movie?.poster_path}`}
                                         Transition={Blur}
-                                        style={{ minWidth: '100px', height: '170px', borderRadius: "6px" }}
+                                        style={{ minWidth: '100px', height: '170px', borderTopLeftRadius: "6px", borderBottomLeftRadius: "6px" }}
                                         loader={<div className='animate-pulse' style={{ background: 'var(--third-color)' }} />}
                                     />
-                                    <div className='flex flex-col justify-between w-full max-sm:px-1 px-2 py-2'>
-                                        <div className=' group-hover:opacity-80 trans  h-[200px] w-[90%]  flex flex-col gap-2  py-4 pl-2 pr-4'>
+                                    <div className=' w-full max-sm:px-1 px-2 py-2 '>
+                                        <div className='group-hover:opacity-80 trans max-sm:max-w-[250px]  max-w-[280px] space-y-2 flex-wrap break-words  py-4 pl-2 pr-4'>
                                             <span className=' font-bold text-sm  w-full'>{obj.movie?.title}</span>
-                                            <p className='text-sm max-sm:text-xs  text-gray-700 w-full overflow-hidden break-words'>{obj.review.slice(0, 90)}{obj.review.length >= 90 && '...'}</p>
+                                            <p className='text-sm max-sm:text-xs  text-gray-700 max-sm:h-[48px] h-[65px] flex-wrap break-words'>{obj?.review?.slice(0, 90)}{obj.review.length >= 90 && '...'}</p>
                                             <p className='text-sm text-gray-500 w-full text-right'>{formatDate(obj.timestamp)}</p>
                                         </div>
                                     </div>
