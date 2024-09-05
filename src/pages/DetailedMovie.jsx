@@ -18,7 +18,6 @@ import { addFavorite, removeFavorite } from '../slices/favoriteSlice';
 import { Palette } from 'color-thief-react';
 import TrailerPlayer from '../components/TrailerPlayer';
 import RateMovie from '../components/RateMovie';
-import { deleteRatingFromFirebase, getRatingFromFirebase, storeRatingInFirebase } from '../utils/Rating';
 import loader from "../assets/loader-third-color.svg"
 import { addOrUpdateRating, deleteRating, fetchRating } from '../slices/RatingSlice';
 
@@ -52,6 +51,8 @@ const DetailedMovie = () => {
       navigate('/login', {state :{comingFrom : `/movie/${id}`}});
     }
   };
+
+  
     
 
   const fetchDetails = useCallback(() => {
@@ -76,6 +77,25 @@ const DetailedMovie = () => {
   }
   
   const location = useLocation();
+  // const comingFrom = location.state.comingFrom ;
+  
+
+  // useEffect(() => { 
+  //   if (comingFrom && comingFrom == 'profile') { 
+  //     const rev = document.getElementById("userReview");
+  //     // console.log('rev', rev);
+  //     // rev.scrollIntoView();
+  //     // const reviewTop = rev?.offsetTop;
+  //     // window.scrollTo(rev);
+  //     if (rev) { 
+  //       console.log(rev);
+  //       setTimeout(() => { 
+  //         rev.scrollIntoView({ behavior: 'smooth' });
+  //       }, 100)
+  //     }
+  //   }
+  // }, [comingFrom, location, user, user?.uid, id])
+
   useEffect(() => { 
     window.scroll(0,0)
   }, [location])
@@ -83,12 +103,16 @@ const DetailedMovie = () => {
   const toggleShownWord = () =>  { 
     setShownWord("No Video To Show")
   }
-
+  
   const handleShowRate = () => { 
     if (!user || !user.uid){ 
       navigate('/login', {state :{comingFrom : `/movie/${id}`}});
       return ;
     }
+    if (showRate)
+      document.body.style.overflowY = 'scroll'
+    if (!showRate)
+      document.body.style.overflowY = 'hidden'
     setShowRate(prev => !prev);
   }
 
@@ -119,7 +143,8 @@ const DetailedMovie = () => {
   const handleDeleteRating = async () => {
       try {
           dispatch(deleteRating({ userId: user?.uid, movieId: id }));
-          setShowRate(false)
+          setShowRate(false);
+          document.body.style.overflowY = 'scroll';
           setCurrentRate(null); 
       } catch (error) {
           setError('Failed to delete rating');
@@ -191,7 +216,7 @@ const DetailedMovie = () => {
                   </div>
                   <div className='flex gap-5 ml-5 flex-wrap'>
                     <button onClick={handleShowRate} className='relative outline-none bg-main-color -ml-4 py-3 mx-auto trans hover:bg-sec-color rounded-full text-white text-sm font-semibold min-w-[156px]'>
-                      {currentRate && !loading ? <span className='text-green-400'>{currentRate * 20}%</span> : !currentRate && !loading ? 'Rate the movie?' : loading ? <img src={loader} className='w-5 mx-auto' alt="" /> : null}
+                      {currentRate && !loading ? <span className='text-green-400'>{currentRate}%</span> : !currentRate && !loading ? 'Rate the movie?' : loading ? <img src={loader} className='w-5 mx-auto' alt="" /> : null}
                     </button>
                     {showRate && <RateMovie deleteRate={handleDeleteRating} color={backgroundColor[2]} prevRate={currentRate ? currentRate : 0} handleClose={handleShowRate} submitRating={submitRating} /> }
                   </div>
@@ -281,7 +306,7 @@ const DetailedMovie = () => {
                       <p>{runtime}</p>
                     </div>
                     <button onClick={handleShowRate} className=' outline-none bg-main-color py-3 mx-auto trans hover:bg-sec-color rounded-full text-white font-semibold min-w-[156px]'>
-                      {currentRate && !loading ? <span className='text-green-400'>{currentRate * 20}%</span> : !currentRate && !loading ? 'Rate the movie?' : loading ? <img src={loader} className='w-5 mx-auto' alt="" /> : null}
+                      {currentRate && !loading ? <span className='text-green-400'>{currentRate}%</span> : !currentRate && !loading ? 'Rate the movie?' : loading ? <img src={loader} className='w-5 mx-auto' alt="" /> : null}
                     </button>
                     {showRate && <RateMovie deleteRate={handleDeleteRating} color={backgroundColor[2]} prevRate={currentRate ? currentRate : 0} handleClose={handleShowRate} submitRating={submitRating} /> }
                     <div className='flex items-center justify-center -ml-2 '>

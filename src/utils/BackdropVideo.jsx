@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { useInView } from 'react-intersection-observer';
 import VideoModal from './VideoModal';
-import LoadingSpinner from '../components/LoadingSpinner';
 
 const BackdropVideo = memo(({imgURL , videoURL}) => {
     const { ref, inView } = useInView({

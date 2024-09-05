@@ -27,20 +27,16 @@ const Media = memo(() => {
     };
     
     const { images, videos, status, error } = useSelector((state) => state.media);
-    const { ref, inView } = useInView({
-        triggerOnce: true,
-        threshold: 0.1,
-    });
     useEffect(() => {
-        if (inView && id) {
+        if (id) {
             dispatch(fetchMovieMedia(id));
         }
-    }, [dispatch, id, inView]);
+    }, [dispatch, id]);
 
     const [visibleVideos, setvisibleVideos] = useState(5); 
     const [visibleImages, setvisibleImages] = useState(5); 
     const [visiblePosters, setvisiblePosters] = useState(5); 
-    // Load 5 more videos
+    
     const handleLoadMoreVideos = () => {
         setvisibleVideos((prev) => prev + 5); 
     };
@@ -53,7 +49,7 @@ const Media = memo(() => {
 
     return (
         (images?.posters?.length != 0 || images?.backdrops?.length != 0 || videos?.results?.length != 0) &&
-        <div ref={ref} className=' flex flex-col gap-5'>
+        <div className=' flex flex-col gap-5'>
             <div className='flex gap-10 items-center'>
                 <h1 className='font-bold text-2xl'>Media</h1>
                 <div className='flex gap-5 font-bold items-center mt-2  h-full'>

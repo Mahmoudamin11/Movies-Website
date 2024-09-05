@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Review from './Review';
 import AddReview from '../utils/AddReview';
 import {deleteReviewForMovie, fetchReviewForMovie} from '../utils/review';
@@ -37,7 +37,7 @@ const Social = memo(() => {
     }
 
     
-
+    const loc = useLocation();
     useEffect(() => {
         const getReview = async () => {
             try {
@@ -51,6 +51,14 @@ const Social = memo(() => {
             }
         };
         getReview();
+        if (status == 'succeeded' && loc.state&&  loc.state.comingFrom === 'profileReview') { 
+            let rev ;
+            setTimeout(() => { 
+                rev = document.getElementById('userReview');
+                if (rev)
+                    rev.scrollIntoView({behavior: 'smooth'});
+            }, 500) 
+        }
     }, [user?.uid, id, prevReview, reviews]);
 
     const handleDeleteReview = async () => {
@@ -64,6 +72,9 @@ const Social = memo(() => {
             setLoading(false);
         }
     };
+
+    const [isExpanded, setIsExpanded] = useState(false);
+    const toggleReadMore = () => setIsExpanded(!isExpanded);
 
     return (
         <div className=''>
@@ -100,7 +111,7 @@ const Social = memo(() => {
                                     </button>
                                 </div>
                             </div>
-                            <div className='w-full relative p-5 bg-gray-50 border-[1px] border-solid border-gray-300 rounded-md '>
+                            <div id='userReview' className='w-full relative p-5 bg-gray-50 border-[1px] border-solid border-gray-300 rounded-md '>
                                 <div className='w-full flex justify-between items-center'>
                                     <div className='flex gap-2 items-center'>
                                         {user && user.photoURL &&
@@ -123,8 +134,15 @@ const Social = memo(() => {
                                         </div>
                                     </div>
                                 </div>
-                                <p className='mt-3 ml-3'>{prevReview}</p>
-                                
+                                <p className='mt-3 ml-3'>
+                                    {isExpanded  ? prevReview :  (prevReview.slice(0, 300) + (prevReview?.length > 300 ? '...' : ""))}
+                                    {prevReview?.length > 300 && <button
+                                        onClick={toggleReadMore}
+                                        className="ml-[2px] trans text-third-color font-bold hover:underline h-fit"
+                                    >
+                                        {isExpanded ? 'Read Less' : 'Read More'}
+                                    </button>}
+                                </p>
                             </div>
                         </div>
                     }

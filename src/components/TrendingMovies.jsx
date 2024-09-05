@@ -90,14 +90,14 @@ const TrendingMovies = memo(() => {
 
     return (
         <>
-            {loading && <LoadingSpinner />}
+            
             { 
             <div ref={containerRef} className="w-full py-10 flex flex-col gap-5">
                 {!loading && <h1 className='text-3xl flex items-center gap-3 font-bold'>
                     Trending
                     <span className='text-sm py-1 cursor-default mt-2 bg-black flex items-center justify-center rounded-full px-3 text-fourth-color'>Today</span>
                 </h1>}
-                {!error && !loading && <div 
+                {!error && <div 
                     style={{
                         backgroundImage: `url(${backgroundImage})`,
                         backgroundSize: 'cover',
@@ -105,6 +105,7 @@ const TrendingMovies = memo(() => {
                         transition: 'all 0.5s ease-in-out',
                     }}
                     ref={mainContainerRef}  className="relative trans py-2 px-4 border-[1px] border-solid border-gray-200 rounded-md w-full h-fit flex overflow-x-scroll overflow-y-hidden gap-10 ">
+                        {loading && <LoadingSpinner />}
                         {
                             trendingMovies.length > 0 &&
                             trendingMovies.map((movie) => (

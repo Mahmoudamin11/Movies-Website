@@ -44,7 +44,7 @@ export const fetchAllUserReviews = async (userId) => {
         const querySnapshot = await getDocs(q);
         const userReviews = [];
         querySnapshot.forEach((doc) => {
-            userReviews.push(doc.data().movie);
+            userReviews.push(doc.data());
         });
 
         return userReviews;

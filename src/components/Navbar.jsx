@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import UserInfo from './UserInfo';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import MobileMenu from './MobileMenu';
 
 const Navbar = memo(() => {
@@ -15,6 +16,7 @@ const Navbar = memo(() => {
     nav("/")
     setPersonON(false);
     setMoviesON(false);
+    setIsOpen(false);
   }
   const popularRef = useRef(null);
   const moviesRef = useRef(null);
@@ -112,16 +114,19 @@ const Navbar = memo(() => {
           </ul>
         </div>
         {
-          (user && user.uid ) ?  <div >
+          (user && user?.uid ) &&  <div >
             <div className='max-sm:hidden'>
               <UserInfo />
             </div>
-            <FontAwesomeIcon onClick={toggleIsOpen} icon={faBars} className={`sm:hidden cursor-pointer text-white text-2xl w-fit mt-2`} />
-          </div> : 
-          <button onClick={goToLogin} className=' bg-white px-5 py-2 text-sec-color rounded-md font-semibold trans hover:bg-gray-100'>
-            Login
-          </button>
+          </div>
         }
+        {!isOpen && <FontAwesomeIcon onClick={toggleIsOpen} icon={faBars} className={`sm:hidden cursor-pointer text-white text-2xl w-fit mt-2`} />}
+        {isOpen && <FontAwesomeIcon onClick={toggleIsOpen} icon={faXmark} className={`sm:hidden cursor-pointer text-white text-2xl w-fit mt-2`} /> }
+          
+        {(!user && !user?.uid ) && <button onClick={goToLogin} className=' max-sm:hidden bg-white px-5 py-2 text-sec-color rounded-md font-semibold trans hover:bg-gray-100'>
+          Login
+        </button>}
+
         <MobileMenu isOpen={isOpen} toggleIsOpen={toggleIsOpen} />
 
     </div>

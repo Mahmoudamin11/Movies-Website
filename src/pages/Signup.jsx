@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { signupUser } from '../slices/userSlice';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -15,6 +15,10 @@ const SignUp = () => {
     const { loading ,error } = useSelector((state) => state.user);
     const nav = useNavigate();
     const inputRef = useRef(null)
+    const loc = useLocation();
+    useEffect(() => { 
+        window.scroll(0,0);
+    }, [loc])
     const goToLogin = () => { 
         nav('/login')
     }

@@ -18,11 +18,17 @@ const Login = () => {
     const goToSignUp = () => { 
         nav('/signup')
     }
+
+    const loc = useLocation();
+    useEffect(() => { 
+        window.scroll(0,0);
+    }, [loc])
     const handleLogin = () => {
         dispatch(loginUser({ email, password }))
             .unwrap() // Unwrap the promise to handle the resolved or rejected value
             .then((user) => {
                 nav(comingFrom);
+                window.location.reload();
             })
             .catch((error) => {
                 console.error('Error during login:', error.message);

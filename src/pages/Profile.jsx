@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { fetchAllRatings } from '../slices/RatingSlice';
 import LoadingSpinnerSections from '../utils/LoadingSpinnerSections';
 import { fetchAllUserReviews } from '../utils/review';
+import { formatDate } from '../utils/Formats';
 
 const Profile = () => {
     const user = useSelector((state) => state.user.user);
@@ -23,6 +24,7 @@ const Profile = () => {
     const [userReviews, setUserReviews] = useState([])
     const [reviewLoading, setReviewLoading] = useState(false)
     const [reviewError, setReviewError] = useState('')
+    const [currIMG, setCurrIMG] = useState('')
     
     const containerRef = useRef(null);
     const dispatch = useDispatch();
@@ -98,7 +100,9 @@ const Profile = () => {
                     const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
                     await updateProfile(user, { photoURL: downloadURL });
                     setLoading(false);
-                    window.location.reload();
+                    // window.location.reload();
+                    setCurrIMG(downloadURL)
+                    nav('/profile')
                 }
             );
         }
@@ -108,7 +112,11 @@ const Profile = () => {
         nav(`/favorite`);
     }
     const handleOpenMovie = (id) => { 
-        nav(`/movie/${id}`);
+        nav(`/movie/${id}`); 
+    }
+    const handleOpenReview = (id) => { 
+        nav(`/movie/${id}`, {state : {comingFrom : 'profileReview'}});
+        
     }
 
     const shownMovies = 6;
@@ -134,6 +142,7 @@ const Profile = () => {
                 setReviewLoading(true)
                 const reviews = await fetchAllUserReviews(user?.uid);
                 setUserReviews(reviews);
+                
             } catch (err) {
                 setReviewError(err.message);
             } finally { 
@@ -142,10 +151,13 @@ const Profile = () => {
         };
         
         loadUserReviews();
+        setCurrIMG(user?.photoURL);
     }, [user?.uid]);
 
+    
+
     return (
-        <div className='min-h-screen flex flex-col items-start gap-16 px-20 max-sm:px-5 py-20 w-full'>
+        <div className='min-h-screen flex flex-col items-start gap-16 px-20 max-sm:px-5 py-20 w-full overflow-x-hidden'>
             <div className='flex items-center max-sm:flex-col max-sm:justify-center w-full gap-4  '>
                 <div>
                     { (
@@ -174,7 +186,7 @@ const Profile = () => {
                                         loading && <div className='w-[128px] h-[128px] rounded-full bg-third-color animate-pulse trans' />
                                     }
                                     {!loading && <AsyncImage
-                                        src={user?.photoURL}
+                                        src={currIMG}
                                         Transition={Blur}
                                         style={{ width: '128px', height: '128px', borderRadius: "100%" }}
                                         loader={<div className=' animate-pulse' style={{ background: 'var(--third-color)' }} />}
@@ -246,23 +258,33 @@ const Profile = () => {
                         favError && <h1 className='w-full text-center text-3xl border-[1px] border-solid p-20 rounded-md text-third-color font-bold'>{favError}</h1>
                     }
             </div>}
+            
+
             {/* Reviewed Movies */}
             { <div className='flex flex-col gap-3 w-full'>
-                <h1 className='text-3xl font-bold'>Movies You Reviewed</h1>
+                <h1 className='text-3xl font-bold'>Your Reviews</h1>
                 {userReviews.length > 0 && !reviewLoading && !reviewError && <div 
-                className="relative trans pt-2 pb-4 px-4 bg-waves bg-cover bg-top outline-none   rounded-md w-full h-fit flex overflow-x-scroll overflow-y-hidden gap-10 ">
+                className="relative trans pt-2 pb-4 max-sm:px-2 px-4  grid  grid-cols-1 min-[1050px]:grid-cols-2 min-[1300px]:grid-cols-3 place-content-center  place-items-center gap-10 ">
                         {
                             userReviews?.length > 0 && 
-                            userReviews.slice(0, shownReviews).map((movie) => (
-                                <div key={movie.id} onClick={() => handleOpenMovie(movie.id)} className='relative z-40 flex group flex-col w-[150px]  gap-2 pt-4 px-2  cursor-pointer trans hover:scale-105'>
+                            userReviews.slice(0, shownReviews).map((obj) => (
+                                <div 
+                                    key={obj.movie?.id} 
+                                    onClick={() => handleOpenReview(obj.movie?.id)} 
+                                    className='relative z-40 bg-gray-50 max-[500px]:w-[350px] w-[420px] h-[170px] shadow-md rounded-md group flex cursor-pointer trans hover:scale-105'
+                                >
                                     <AsyncImage
-                                            src={`https://image.tmdb.org/t/p/w185${movie.poster_path}`}
-                                            Transition={Blur}
-                                            style={{ width: '150px', height: '250px', borderRadius: "6px" }}
-                                            loader={<div className=' animate-pulse' style={{ background: 'var(--third-color)' }} />}
+                                        src={`https://image.tmdb.org/t/p/w185${obj.movie?.poster_path}`}
+                                        Transition={Blur}
+                                        style={{ minWidth: '100px', height: '170px', borderRadius: "6px" }}
+                                        loader={<div className='animate-pulse' style={{ background: 'var(--third-color)' }} />}
                                     />
-                                    <div className=' group-hover:opacity-80 trans '>
-                                        <span className=' font-bold text-sm '>{movie.title}</span>
+                                    <div className='flex flex-col justify-between w-full max-sm:px-1 px-2 py-2'>
+                                        <div className=' group-hover:opacity-80 trans  h-[200px] w-[90%]  flex flex-col gap-2  py-4 pl-2 pr-4'>
+                                            <span className=' font-bold text-sm  w-full'>{obj.movie?.title}</span>
+                                            <p className='text-sm max-sm:text-xs  text-gray-700 w-full overflow-hidden break-words'>{obj.review.slice(0, 90)}{obj.review.length >= 90 && '...'}</p>
+                                            <p className='text-sm text-gray-500 w-full text-right'>{formatDate(obj.timestamp)}</p>
+                                        </div>
                                     </div>
                                 </div>
                             ))
@@ -285,7 +307,7 @@ const Profile = () => {
                         reviewLoading && <LoadingSpinnerSections />
                     }
                     {
-                        reviewError && <h1 className='w-full text-center text-3xl border-[1px] border-solid p-20 rounded-md text-third-color font-bold'>{favError}</h1>
+                        reviewError && <h1 className='w-full text-center text-3xl border-[1px] border-solid p-20 rounded-md text-third-color font-bold'>{reviewError}</h1>
                     }
             </div>}
 
@@ -306,7 +328,7 @@ const Profile = () => {
                                     <div className=' group-hover:opacity-80 trans '>
                                         <span className=' font-bold text-sm '>{movie.title}</span>
                                     </div>
-                                    <div className=' absolute top-6 left-[75%] w-9 h-9 flex items-center text-xs font-semibold justify-center rounded-full bg-white text-third-color'>{rating * 20}%</div>
+                                    <div className=' absolute top-6 left-[75%] w-9 h-9 flex items-center text-xs font-semibold justify-center rounded-full bg-white text-third-color'>{rating}%</div>
                                 </div>
                             ): null)
                         }
@@ -330,6 +352,9 @@ const Profile = () => {
                         ratingLoading && <LoadingSpinnerSections />
                     }
             </div>}
+
+
+            
 
         </div>
     );

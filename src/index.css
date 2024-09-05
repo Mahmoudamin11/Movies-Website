@@ -21,6 +21,19 @@
 ::-webkit-scrollbar-thumb:hover {
     background-color: #a8bbbf;
 }
+
+::-ms-fill-upper {
+    background: #508C9B;
+}
+.slider::-webkit-slider-thumb {
+    width: 30px;
+    height: 24px;
+    cursor: pointer;
+    appearance: none;
+    background: #134B70;
+    border-radius: 30%;
+    -webkit-appearance: none;
+}
 @layer base { 
     :root { 
         --main-color : #201E43 ;
