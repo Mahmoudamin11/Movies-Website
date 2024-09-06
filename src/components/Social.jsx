@@ -30,7 +30,11 @@ const Social = memo(() => {
     }
     
     const toggleAddReview = () => { 
-        setShowAddReview(!showAddReview)
+        if (!user && !user?.uId) { 
+            nav('/login', {state:{comingFrom : `/movie/${id}`}})
+        }
+        else 
+            setShowAddReview(!showAddReview)
     }
 
     const editReview = () => { 

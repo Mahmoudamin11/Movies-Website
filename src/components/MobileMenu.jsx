@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { AsyncImage } from 'loadable-image';
 import { Blur } from 'transitions-kit';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,7 +16,6 @@ const MobileMenu = ({isOpen, toggleIsOpen}) => {
     const user = useSelector((state) => state.user.user);
     const nav = useNavigate();
     const dispatch = useDispatch();
-
     const goToHome = () => { 
         nav('/');
         toggleIsOpen();
@@ -66,6 +65,8 @@ const MobileMenu = ({isOpen, toggleIsOpen}) => {
         nav(`/profile`)
         toggleIsOpen();
     }
+
+    
     return (
         <div className={`trans sm:hidden px-8 py-12 ${isOpen ? "translate-x-0" : "translate-x-[120%]"} fixed w-full h-full top-[75px] right-0 bg-sec-color z-50 flex flex-col gap-8 `}>
             {
@@ -93,6 +94,7 @@ const MobileMenu = ({isOpen, toggleIsOpen}) => {
             }
             <div className='flex flex-col gap-10 text-start text-white'>
                 <button onClick={goToHome} className='font-semibold w-fit text-xl'>Home</button>
+                <button onClick={goToProfile} className='font-semibold w-fit text-xl'>Profile</button>
                 <button onClick={goToFavorites} className='font-semibold w-fit text-xl'>Favorites</button>
                 <div className=' flex flex-col gap-2'>
                     <button onClick={openMovies} className='font-semibold w-fit text-xl'>

@@ -48,15 +48,7 @@ const DiscoveredMovies = memo(() => {
     
   return (
     <>
-        {/* {
-            loading && <LoadingSpinner />
-        } */}
-
-        { 
-            currError && 
-            <Error error={currError} />
-        } 
-        
+    
         {
             !currError &&
             <div className='flex flex-col gap-5'>
@@ -71,7 +63,7 @@ const DiscoveredMovies = memo(() => {
                     {
                         data.length > 0 && !loading&&
                         data.slice(0, 8).map((mov) => (
-                            <div onClick={() => handleOpenMovie(mov.id)} className='flex group flex-col  gap-2 cursor-pointer trans hover:scale-105'>
+                            <div key={mov.id} onClick={() => handleOpenMovie(mov.id)} className='flex group flex-col  gap-2 cursor-pointer trans hover:scale-105'>
                                 <AsyncImage
                                         src={`https://image.tmdb.org/t/p/w342${mov.poster_path}`}
                                         Transition={Blur}

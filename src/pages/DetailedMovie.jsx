@@ -143,10 +143,20 @@ const DetailedMovie = () => {
       {status === 'failed' && <Error error={error} />}
       {status === 'succeeded' && details && (
         <div className='flex flex-col gap-10'>
-          <Palette src={details?.poster_path ? `https://image.tmdb.org/t/p/w500/${details.poster_path}` : `https://image.tmdb.org/t/p/w500/${details.backdrop_path}`} crossOrigin="anonymous" format="hex" colorCount={4}>
+          <Palette
+            src={details?.poster_path ? `https://image.tmdb.org/t/p/w500/${details.poster_path}` : `https://image.tmdb.org/t/p/w500/${details.backdrop_path}`}
+            crossOrigin="anonymous"
+            format="hex"
+            colorCount={4}
+          >
             {({ data }) => {
-              if (data)
-                setBackgroundColor(data);
+              // Use effect to update state after rendering
+              useEffect(() => {
+                if (data) {
+                  setBackgroundColor(data);
+                }
+              }, [data]); // Only update when `data` changes
+              
             }}
           </Palette>
           <div className="relative w-full max-[870px]:hidden " style={{ height: '600px' }}>

@@ -49,7 +49,7 @@ const RateMovie = ({deleteRate,prevRate, handleClose, submitRating}) => {
                 </div>
                 <div className='flex flex-col gap-2'>
                     <button onClick={handleSubmitRating} className='px-5 py-[6px] rounded-md bg-sec-color text-white font-bold trans hover:bg-third-color  '>Submit</button>
-                    <button onClick={deleteRate} className='px-5 rounded-md  text-red-500  trans  '>Delete Rate</button>
+                    <button onClick={deleteRate} className='px-5 rounded-md  text-red-500  trans hover:text-red-300 '>Delete Rate</button>
                 </div>
             </div>
             <div onClick={handleClose} className='fixed w-full top-0 left-0 h-[100vh] bg-black opacity-70 z-50' />

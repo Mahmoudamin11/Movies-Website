@@ -1,6 +1,6 @@
-import React, { memo, useRef, useState } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import UserInfo from './UserInfo';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
@@ -21,6 +21,7 @@ const Navbar = memo(() => {
   }
   const popularRef = useRef(null);
   const moviesRef = useRef(null);
+  const location = useLocation();
   
   const handleMouseEnterMovies = () => { 
     
@@ -40,13 +41,17 @@ const Navbar = memo(() => {
       moviesRef.current.style.display = "none";
     }
   }
-  const handleMouseLeave = () => { 
+  const handleMouseLeaveMovies = () => { 
+    
+    if (moviesRef.current) { 
+      moviesRef.current.style.display = "none";
+    }
+  }
+
+  const handleMouseLeavePeople = () => { 
     
     if (popularRef.current) { 
       popularRef.current.style.display = "none";
-    }
-    if (moviesRef.current) { 
-      moviesRef.current.style.display = "none";
     }
   }
 
@@ -82,36 +87,46 @@ const Navbar = memo(() => {
   }
   const user = useSelector((state) => state.user.user);
 
-  const toggleIsOpen = () => { 
-    if (isOpen)
-      document.body.style.overflowY = 'scroll'
-    else
-      document.body.style.overflowY = 'hidden'
-    setIsOpen(!isOpen);
-  }
+  const toggleIsOpen = () => {
+    setIsOpen(prevState => {
+      document.body.style.overflowY = prevState ? 'scroll' : 'hidden';
+      return !prevState;
+    });
+  };
+  useEffect(() => {
+      if (document.body.style.overflowY !== 'scroll') {
+        document.body.style.overflowY = 'scroll';
+      }
+      
+      if (isOpen)
+        setIsOpen(false);
+      return () => {
+        document.body.style.overflowY = '';
+      };
+  }, [location]);
   return (
-    <div onMouseLeave={handleMouseLeave} className='w-full flex items-center justify-between bg-main-color   py-5 max-[800px]:px-10 px-20 max-sm:px-5'>
+    <div  className='w-full flex items-center justify-between bg-main-color trans   py-5 max-[800px]:px-10 px-20 max-sm:px-5'>
         <div  className='flex gap-24 items-center'>
-          <button onClick={goToHome} className="cursor-pointer outline-none text-3xl text-background-color" >
-              Movies Camp
-          </button>
-          <ul  className='flex gap-8 text-white max-[700px]:hidden   items-center mt-2'>
-            <button onMouseEnter={handleMouseEnterMovies}  className='relative group outline-none h-fit'>
+          <div onClick={goToHome} className="cursor-pointer outline-none  text-background-color hover:opacity-80" >
+              <span className=' font-bold text-4xl outline-none'>Movies</span> <span className='text-2xl text-third-color font-semibold outline-none'>Camp</span>
+          </div>
+          <ul  className='flex gap-8 text-white max-[700px]:hidden text-center  sm:h-[60px]  items-center mt-2'>
+            <div onMouseLeave={handleMouseLeaveMovies} onMouseEnter={handleMouseEnterMovies}  className='relative h-[50px] text-center cursor-pointer flex items-center group outline-none'>
               <span className={`${moviesON ? "opacity-100" : "opacity-70"} font-bold trans group-hover:opacity-100`}>Movies</span>
-              <div ref={moviesRef} className='hidden z-50 trans absolute text-black bg-gray-50  w-40 text-sm top-full mt-2 left-0 py-2  group trans rounded-md cursor-pointer'>
+              <div ref={moviesRef} className='hidden z-50 trans absolute text-black bg-gray-50  w-40 text-sm top-[75%] mt-2 left-0 py-2  group trans rounded-md cursor-pointer'>
                 <button onClick={goToPopularMovies} className='outline-none trans w-full text-start px-5 py-2 hover:bg-gray-100'>Popular Movies</button>
                 <button onClick={goToTopRatedMovies} className='outline-none trans w-full text-start px-5 py-2 hover:bg-gray-100'>Top Rated</button>
                 <button onClick={goToNowPlayingMovies} className='outline-none trans w-full text-start px-5 py-2 hover:bg-gray-100'>Now Playing</button>
                 <button onClick={goToUpcomingMovies} className='outline-none trans w-full text-start px-5 py-2 hover:bg-gray-100'>Upcoming</button>
               </div>
-            </button>
+            </div>
 
-            <button onMouseEnter={handleMouseEnter}  className='relative group outline-none h-fit'>
-              <span className={`${personON ? "opacity-100" : "opacity-70"} font-bold trans group-hover:opacity-100`}>People</span>
-              <div ref={popularRef} onClick={goToPopularPeoplePage}  className='hidden z-50 trans absolute text-black bg-gray-50  w-40 text-sm top-full mt-2 left-0 py-2  group trans rounded-md cursor-pointer'>
+            <div onMouseLeave={handleMouseLeavePeople} onMouseEnter={handleMouseEnter}  className='relative cursor-pointer h-[50px] flex items-center group outline-none '>
+              <span className={`${personON ? "opacity-100" : "opacity-70"} font-bold trans group-hover:opacity-100 `}>People</span>
+              <div role='button' ref={popularRef} onClick={goToPopularPeoplePage}  className='hidden z-50 trans absolute text-black bg-gray-50  w-40 text-sm top-[75%] mt-2 left-0 py-2  group trans rounded-md cursor-pointer'>
                 <button className='outline-none trans w-full px-5 py-2 text-start hover:bg-gray-100'>Popular People</button>
               </div>
-            </button>
+            </div>
           </ul>
         </div>
         {

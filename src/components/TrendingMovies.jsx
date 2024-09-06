@@ -85,8 +85,9 @@ const TrendingMovies = memo(() => {
             setBackgroundImage(`https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`);
         };
         
-
     }
+
+    
 
     return (
         <>
