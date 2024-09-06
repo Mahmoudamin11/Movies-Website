@@ -9,6 +9,8 @@ import BackdropVideo from '../utils/BackdropVideo';
 import { useInView } from 'react-intersection-observer';
 import { ref } from 'firebase/storage';
 import LoadingSpinnerSections from '../utils/LoadingSpinnerSections';
+import DisplayedImage from '../utils/DisplayedImage';
+import DisplayedPoster from '../utils/DisplayedPoster';
 
 const Media = memo(() => {
     const { id } = useParams(); // useParams to get the movie ID from the URL
@@ -47,6 +49,27 @@ const Media = memo(() => {
         setvisiblePosters((prev) => prev + 5); 
     };
 
+    const [shownImage, setShownImage] = useState('');
+
+    const changeShownImage = (link) => { 
+        document.body.style.overflowY = 'hidden';
+        setShownImage(link);
+    }
+    const handleCloseShownImage = () => { 
+        document.body.style.overflowY = 'scroll';
+        setShownImage('');
+    }
+    const [shownPoster, setShownPoster] = useState('');
+
+    const changeShownPoster = (link) => { 
+        document.body.style.overflowY = 'hidden';
+        setShownPoster(link);
+    }
+    const handleCloseShownPoster = () => { 
+        document.body.style.overflowY = 'scroll';
+        setShownPoster('');
+    }
+
     return (
         (images?.posters?.length != 0 || images?.backdrops?.length != 0 || videos?.results?.length != 0) &&
         <div className=' flex flex-col gap-5'>
@@ -68,10 +91,11 @@ const Media = memo(() => {
                             images.backdrops.slice(0, visibleImages).map((image) => (
                                 <AsyncImage
                                     key={image.file_path}
-                                    src={`https://image.tmdb.org/t/p/w500${image.file_path}`}
+                                    src={`https://image.tmdb.org/t/p/w500${image?.file_path}`}
                                     alt="Movie backdrop"
+                                    onClick={() => changeShownImage(`https://image.tmdb.org/t/p/w500${image?.file_path}`)}
                                     Transition={Blur}
-                                    style={{ minWidth: '50%', height: '100%'}}
+                                    style={{ minWidth: '50%', height: '100%', cursor: 'pointer'}}
                                     loader={<div className=' animate-pulse border-r-[1px] border-slate-50 border-solid' style={{ background: 'var(--third-color)' }} />}
                                     loading='lazy'
                                 />
@@ -84,7 +108,8 @@ const Media = memo(() => {
                                 src={`https://image.tmdb.org/t/p/w342${image.file_path}`}
                                 alt="Movie backdrop"
                                 Transition={Blur}
-                                style={{ minWidth: '25%', height: '100%'}}
+                                onClick={() => changeShownPoster(`https://image.tmdb.org/t/p/w342${image.file_path}`)}
+                                style={{ minWidth: '25%', height: '100%', cursor: 'pointer'}}
                                 loader={<div className=' animate-pulse border-r-[1px] border-slate-50 border-solid' style={{ background: 'var(--third-color)' }} />}
                                 loading='lazy'
                             />
@@ -127,6 +152,8 @@ const Media = memo(() => {
                     </div>
                 )}
             </div>}
+            {shownImage && <DisplayedImage image={shownImage} onClose={handleCloseShownImage} />}
+            {shownPoster && <DisplayedPoster image={shownPoster} onClose={handleCloseShownPoster} />}
         </div>
     );
 });

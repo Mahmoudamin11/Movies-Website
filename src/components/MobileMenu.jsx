@@ -8,6 +8,7 @@ import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { logoutUser } from '../slices/userSlice';
 import { clearFavorites } from '../slices/favoriteSlice';
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 const MobileMenu = ({isOpen, toggleIsOpen}) => {
     const [showMovies, setShowMovies] = useState(false)
     const [showPeople, setShowPeople] = useState(false)
@@ -25,7 +26,7 @@ const MobileMenu = ({isOpen, toggleIsOpen}) => {
         toggleIsOpen();
     }
     const goToLogin = () => { 
-        nav('/login', {state :{comingFrom : `/`}});
+        nav('/login', {state :{comingFrom : '/'}});
         toggleIsOpen();
     }
     const logOut = () => { 
@@ -42,33 +43,49 @@ const MobileMenu = ({isOpen, toggleIsOpen}) => {
         setPeopleList(prev => !prev);
     }
     const goToPopularPeoplePage = () => { 
-        nav(`/popularPeople`);
+        nav('/popularPeople');
         toggleIsOpen();
     }
     const goToPopularMovies = () => { 
-        nav(`/popularMovies`)
+        nav('/popularMovies')
         toggleIsOpen();
     }
     const goToNowPlayingMovies = () => { 
-        nav(`/nowPlayingMovies`)
+        nav('/nowPlayingMovies')
         toggleIsOpen();
     }
     const goToUpcomingMovies = () => { 
-        nav(`/upcoming`)
+        nav('/upcoming')
         toggleIsOpen();
     }
     const goToTopRatedMovies = () => { 
-        nav(`/topRated`)
+        nav('/topRated')
         toggleIsOpen();
     }
     const goToProfile = () => { 
-        nav(`/profile`)
+        if (!user && !user?.uid) { 
+            nav('/login', {state:{comingFrom : '/profile'}})
+        }
+        else
+            nav('/profile')
+        
         toggleIsOpen();
     }
 
+    useEffect(() => { 
+        const handlePopState = () => { 
+            
+            toggleIsOpen();
+        }
+
+        window.addEventListener('popstate', handlePopState);
+        return () => window.removeEventListener('popstate', handlePopState);
+
+    }, [])
     
     return (
-        <div className={`trans sm:hidden px-8 py-12 ${isOpen ? "translate-x-0" : "translate-x-[120%]"} fixed w-full h-full top-[75px] right-0 bg-sec-color z-50 flex flex-col gap-8 `}>
+        <div className={`trans sm:hidden px-8 py-12 ${isOpen ? "translate-x-0" : "translate-x-[120%]"} fixed w-full h-full top-0 right-0 bg-sec-color z-50 flex flex-col justify-center gap-8 `}>
+            <FontAwesomeIcon onClick={toggleIsOpen} icon={faXmark} className={`sm:hidden fixed top-8 right-5 cursor-pointer text-slate-400 trans hover:text-white  ml-auto text-2xl w-fit mb-2`} />
             {
                 (user && user?.uid) && (
                     !user.photoURL ? 

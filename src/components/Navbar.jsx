@@ -89,21 +89,16 @@ const Navbar = memo(() => {
 
   const toggleIsOpen = () => {
     setIsOpen(prevState => {
-      document.body.style.overflowY = prevState ? 'scroll' : 'hidden';
+      if (!prevState) {
+          document.body.style.overflowY = 'hidden';
+      } else {
+          document.body.style.overflowY = 'scroll';
+        }
       return !prevState;
     });
   };
-  useEffect(() => {
-      if (document.body.style.overflowY !== 'scroll') {
-        document.body.style.overflowY = 'scroll';
-      }
-      
-      if (isOpen)
-        setIsOpen(false);
-      return () => {
-        document.body.style.overflowY = '';
-      };
-  }, [location]);
+  
+  
   return (
     <div  className='w-full flex items-center justify-between bg-main-color trans   py-5 max-[800px]:px-10 px-20 max-sm:px-5'>
         <div  className='flex gap-24 items-center'>
@@ -137,7 +132,7 @@ const Navbar = memo(() => {
           </div>
         }
         {!isOpen && <FontAwesomeIcon onClick={toggleIsOpen} icon={faBars} className={`sm:hidden cursor-pointer text-white text-2xl w-fit mt-2`} />}
-        {isOpen && <FontAwesomeIcon onClick={toggleIsOpen} icon={faXmark} className={`sm:hidden cursor-pointer text-white text-2xl w-fit mt-2`} /> }
+        {/* {isOpen && <FontAwesomeIcon onClick={toggleIsOpen} icon={faXmark} className={`sm:hidden cursor-pointer text-white text-2xl w-fit mt-2`} /> } */}
           
         {(!user && !user?.uid ) && <button onClick={goToLogin} className=' max-sm:hidden bg-white px-5 py-2 text-sec-color rounded-md font-semibold trans hover:bg-gray-100'>
           Login

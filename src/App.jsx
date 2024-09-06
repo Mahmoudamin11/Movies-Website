@@ -23,6 +23,7 @@ import { loadFavorites } from './slices/favoriteSlice';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import ProfileProtectedRoute from './utils/ProtectedRoute';
+import MobileMenu from './components/MobileMenu';
 
 
 const Router = createBrowserRouter(
@@ -42,7 +43,6 @@ const Router = createBrowserRouter(
       <Route path="/signup" element={<SignUp />} />
       <Route path="/login" element={<Login />} />
       <Route path="/profile" element={<ProfileProtectedRoute />} />
-      <Route path="/settings" element={<Settings />} />
       <Route path='*' element={<RouteError />} />
 
       

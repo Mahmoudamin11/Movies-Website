@@ -44,12 +44,4 @@ const BackdropVideo = memo(({imgURL , videoURL}) => {
     )
 })
 
-
-// <ReactPlayer
-//     url={`https://www.youtube.com/watch?v=${video.key}`}
-//     minWidth="50%"
-//     height="300px"
-//     controls
-// />
-
 export default BackdropVideo

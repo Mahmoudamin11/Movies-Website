@@ -24,7 +24,7 @@ const ScrollTopBtn = memo(() => {
         });
     }, [height])
     return (
-        <button onClick={scrollToTop} className={`group px-5 py-4 hover:scale-105 text-white 3
+        <button onClick={scrollToTop} className={`group px-5 py-4 z-[100] hover:scale-105 text-white 3
         bg-sec-color font-bold rounded-md bottom-10 fixed right-5 
         hover:bg-third-color outline-none trans ${height > 2000 ? "translate-x-0" : "translate-x-[200%]"} `}>
             <FontAwesomeIcon icon={faAngleDown} className={`w-fit  text-lg rotate-[180deg] trans group-hover:scale-105`} />
