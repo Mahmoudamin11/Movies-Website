@@ -9,7 +9,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { logoutUser } from '../slices/userSlice';
 import { clearFavorites } from '../slices/favoriteSlice';
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-const MobileMenu = ({isOpen, toggleIsOpen}) => {
+const MobileMenu = ({isOpen, toggleIsOpen, closeMenu}) => {
     const [showMovies, setShowMovies] = useState(false)
     const [showPeople, setShowPeople] = useState(false)
     const [moviesList, setMoviesList] = useState(false)
@@ -74,8 +74,7 @@ const MobileMenu = ({isOpen, toggleIsOpen}) => {
 
     useEffect(() => { 
         const handlePopState = () => { 
-            
-            toggleIsOpen();
+            closeMenu()
         }
 
         window.addEventListener('popstate', handlePopState);

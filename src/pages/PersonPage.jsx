@@ -22,6 +22,7 @@ const PersonPage = () => {
     useEffect(() => { 
         window.scroll(0,0);
     }, [loc])
+
     useEffect(() => {
         const pId = id?.split('-')[0];
         const fetchPerson = async () => {
@@ -33,7 +34,6 @@ const PersonPage = () => {
             try {
                 const credits = await getPersonCredits(pId);
                 const movies = credits.cast.filter(credit => credit.media_type === 'movie' && credit.poster_path);
-                // Sort movies by popularity or any other criteria if needed
                 const sortedMovies = movies.sort((a, b) => b.popularity - a.popularity);
                 setKnownFor(sortedMovies);
             } catch (error) {
