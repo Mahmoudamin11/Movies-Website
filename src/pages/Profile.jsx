@@ -260,7 +260,7 @@ const Profile = () => {
             </div>}
             
 
-            {/* Reviewed Movies */}
+            {/* Your Reviews */}
             { <div className='flex flex-col gap-3 w-full'>
                 <h1 className='text-3xl font-bold'>Your Reviews</h1>
                 {userReviews.length > 0 && !reviewLoading && !reviewError && <div 
@@ -282,7 +282,7 @@ const Profile = () => {
                                     <div className=' w-full max-sm:px-1 px-2 py-2 '>
                                         <div className='group-hover:opacity-80 trans max-sm:max-w-[250px]  max-w-[280px] space-y-2 flex-wrap break-words  py-4 pl-2 pr-4'>
                                             <span className=' font-bold text-sm  w-full'>{obj.movie?.title}</span>
-                                            <p className='text-sm max-sm:text-xs  text-gray-700 max-sm:h-[48px] h-[65px] flex-wrap break-words'>{obj?.review?.slice(0, 90)}{obj.review.length >= 90 && '...'}</p>
+                                            <p className='text-sm max-sm:text-xs  text-gray-700 max-sm:h-[48px] h-[50px] flex-wrap break-words'>{obj?.review?.slice(0, 90)}{obj.review.length >= 90 && '...'}</p>
                                             <p className='text-sm text-gray-500 w-full text-right'>{formatDate(obj.timestamp)}</p>
                                         </div>
                                     </div>

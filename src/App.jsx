@@ -20,10 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import Favorite from './pages/Favorite';
 import { loadFavorites } from './slices/favoriteSlice';
-import Profile from './pages/Profile';
-import Settings from './pages/Settings';
 import ProfileProtectedRoute from './utils/ProtectedRoute';
-import MobileMenu from './components/MobileMenu';
 
 
 const Router = createBrowserRouter(
