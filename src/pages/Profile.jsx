@@ -293,7 +293,7 @@ const Profile = () => {
                     </div>}
                     {userReviews.length > shownReviews && !loading && !reviewError && 
                             <div onClick={loadMoreReviews} className='w-full cursor-pointer outline-none flex items-center justify-center'>
-                                <button className='outline-none text-white px-10 mt-5 py-2 rounded-md  bg-sec-color trans hover:bg-third-color'>Load More</button>
+                                <button className='outline-none text-white px-10 mt-5 py-2 rounded-md  bg-sec-color trans hover:bg-third-color'>See All</button>
                             </div>
                         }
 
