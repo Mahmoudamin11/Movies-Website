@@ -104,7 +104,7 @@ const userSlice = createSlice({
         // Logout user
         .addCase(logoutUser.fulfilled, (state) => {
             console.log("LOGOUT");
-            
+
             state.user = null;
         });
     }
